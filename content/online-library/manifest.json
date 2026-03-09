@@ -1,10 +1,36 @@
 {
-  "version": "1.0",
+  "version": "1.0.0",
+  "updatedAt": "2026-03-09T12:30:00-03:00",
   "musics": [
     {
-      "title": "Exemplo",
-      "artist": "Demo",
-      "lyrics": "[Verso]\\nC G D\\nLetra da m\u00fasica exemplo"
+      "id": "oceano-demo",
+      "title": "Oceano (Demo)",
+      "artist": "Stage Music Sample",
+      "key": "G",
+      "bpm": 72,
+      "capo": "Sem capotraste",
+      "tags": [
+        "adoração",
+        "demo",
+        "palco"
+      ],
+      "notes": "Intro 2x, entrada suave",
+      "lyrics": "[Intro]\nG  D/F#  Em7  C\n\n[Verso 1]\nG               D/F#\nTe quero mais que tudo\nEm7             C\nMinha canção em Ti\n\n[Refrão]\nG            D/F#\nTu és o meu refúgio\nEm7          C\nMinha paz aqui"
+    },
+    {
+      "id": "estrada-demo",
+      "title": "Na Estrada (Demo)",
+      "artist": "Stage Music Sample",
+      "key": "A",
+      "bpm": 98,
+      "capo": "2",
+      "tags": [
+        "noite",
+        "acústico",
+        "barzinho"
+      ],
+      "notes": "Refrão com levada aberta",
+      "lyrics": "[Verso]\nA    E/G#   F#m   D\nHoje eu pego a estrada outra vez\n\n[Refrão]\nA         E/G#\nLuzes da cidade\nF#m       D\nSom na madrugada"
     }
   ]
 }

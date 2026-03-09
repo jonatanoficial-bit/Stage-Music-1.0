@@ -1,6 +1,8 @@
 {
-  "app": "Stage Music \u2014 Live Music Performance",
+  "app": "Stage Music — Live Music Performance",
   "build": "2026-03-09 12:30",
   "version": "v0.4.1",
-  "progress": "48%"
+  "status": "rebuild premium corrigido",
+  "phase": "UI/UX premium + biblioteca online pública + admin",
+  "progress": "36%"
 }

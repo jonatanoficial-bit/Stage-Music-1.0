@@ -1,31 +1,121 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stage Music - Live Music Performance</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stage Music - Live Music Performance</title>
+  <meta name="description" content="Biblioteca musical premium para palco, estudo e repertórios.">
+  <meta name="theme-color" content="#0b1020">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <div class="app-shell">
+    <div class="aurora aurora-a"></div>
+    <div class="aurora aurora-b"></div>
 
-<header>
-<h1>Stage Music</h1>
-<p>Live Music Performance</p>
-</header>
+    <header class="topbar glass">
+      <div class="brand-wrap">
+        <div class="brand-icon">♪</div>
+        <div>
+          <h1>Stage Music</h1>
+          <p>Live Music Performance</p>
+        </div>
+      </div>
 
-<main>
-<section id="library">
-<h2>Biblioteca de Músicas</h2>
-<input type="text" id="search" placeholder="Buscar música...">
-<ul id="musicList"></ul>
-</section>
+      <div class="top-actions">
+        <button class="btn subtle" id="toggleStageMode" type="button">Modo Palco</button>
+        <a class="btn subtle" href="admin/admin.html">Admin</a>
+      </div>
+    </header>
 
-<section id="viewer">
-<h2>Visualização</h2>
-<div id="musicContent">Selecione uma música...</div>
-</section>
-</main>
+    <main class="layout">
+      <aside class="panel glass library-panel">
+        <div class="panel-head">
+          <div>
+            <span class="eyebrow">Biblioteca</span>
+            <h2>Suas músicas e cifras online</h2>
+          </div>
+          <div class="count-pill" id="libraryCount">0 faixas</div>
+        </div>
 
-<script src="js/app.js"></script>
+        <div class="toolbar">
+          <div class="search-wrap">
+            <span class="search-icon">⌕</span>
+            <input type="search" id="searchInput" placeholder="Buscar por nome, artista, tom, tags...">
+          </div>
+          <button class="btn secondary" id="refreshLibrary" type="button">Atualizar</button>
+        </div>
+
+        <div class="filters">
+          <button class="chip active" data-filter="all" type="button">Todas</button>
+          <button class="chip" data-filter="online" type="button">Online</button>
+          <button class="chip" data-filter="local" type="button">Locais</button>
+        </div>
+
+        <div class="song-list" id="musicList"></div>
+      </aside>
+
+      <section class="panel glass viewer-panel">
+        <div class="viewer-head">
+          <div class="viewer-meta">
+            <span class="eyebrow">Visualização</span>
+            <h2 id="viewerTitle">Selecione uma música</h2>
+            <p id="viewerSubtitle">Escolha uma faixa da biblioteca para abrir a cifra ou letra.</p>
+          </div>
+
+          <div class="viewer-actions">
+            <button class="icon-btn" id="decreaseFont" type="button" title="Diminuir">A−</button>
+            <button class="icon-btn" id="increaseFont" type="button" title="Aumentar">A+</button>
+            <button class="icon-btn" id="copyText" type="button" title="Copiar">Copiar</button>
+          </div>
+        </div>
+
+        <div class="song-meta-grid" id="songMeta">
+          <article class="meta-card">
+            <span>Tom</span>
+            <strong id="metaKey">—</strong>
+          </article>
+          <article class="meta-card">
+            <span>BPM</span>
+            <strong id="metaBpm">—</strong>
+          </article>
+          <article class="meta-card">
+            <span>Capotraste</span>
+            <strong id="metaCapo">—</strong>
+          </article>
+          <article class="meta-card">
+            <span>Origem</span>
+            <strong id="metaSource">—</strong>
+          </article>
+        </div>
+
+        <div class="viewer-card">
+          <div class="viewer-toolbar">
+            <button class="btn secondary small" id="startScroll" type="button">Auto Scroll</button>
+            <label class="range-wrap">
+              <span>Velocidade</span>
+              <input id="scrollSpeed" type="range" min="1" max="8" value="3">
+            </label>
+            <label class="range-wrap">
+              <span>Zoom</span>
+              <input id="fontRange" type="range" min="16" max="28" value="19">
+            </label>
+          </div>
+
+          <article class="lyrics-view" id="musicContent">
+            <div class="empty-state">
+              <div class="empty-icon">♫</div>
+              <p>Biblioteca pronta. Abra uma música para ver a cifra em modo premium.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
