@@ -4,55 +4,43 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Stage Music - Live Music Performance</title>
-<link rel="icon" href="assets/icons/favicon.svg">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<header class="top">
+<header>
 <h1>Stage Music</h1>
 <p>Live Music Performance</p>
 </header>
 
-<main class="grid">
+<div class="layout">
 
-<section class="panel">
+<div class="panel">
 <h2>Biblioteca</h2>
-
 <input id="search" placeholder="Buscar música">
-
-<div class="upload">
-<label>Adicionar PDF local</label>
-<input type="file" id="pdfInput" accept="application/pdf">
+<div id="library"></div>
 </div>
 
-<div id="library"></div>
-
-</section>
-
-<section class="panel viewer">
-
+<div class="panel">
 <h2 id="title">Selecione uma música</h2>
-<div id="meta"></div>
 
 <div class="controls">
-<button id="prev">Anterior</button>
-<button id="next">Próxima</button>
-<button id="addSetlist">Adicionar ao Setlist</button>
+<button id="transposeDown">- Tom</button>
+<button id="transposeUp">+ Tom</button>
+<button id="favorite">★ Favorito</button>
 </div>
 
-<div id="viewer"></div>
+<pre id="viewer"></pre>
 
-</section>
+</div>
 
-<section class="panel setlist">
+<div class="panel">
+<h2>Setlists</h2>
+<button id="saveSetlist">Salvar setlist</button>
+<div id="setlists"></div>
+</div>
 
-<h2>Setlist</h2>
-<div id="setlist"></div>
-
-</section>
-
-</main>
+</div>
 
 <script src="js/store.js"></script>
 <script src="js/app.js"></script>

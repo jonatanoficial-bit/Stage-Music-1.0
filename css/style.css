@@ -1,9 +1,9 @@
 
 body{font-family:Arial;background:#0b1020;color:white;margin:0;padding:20px}
-.top{text-align:center;margin-bottom:20px}
-.grid{display:grid;grid-template-columns:300px 1fr 300px;gap:20px}
+header{text-align:center;margin-bottom:20px}
+.layout{display:grid;grid-template-columns:300px 1fr 300px;gap:20px}
 .panel{background:#121833;padding:15px;border-radius:12px}
-#viewer{white-space:pre-wrap;margin-top:20px;font-family:monospace}
-.song{padding:10px;border-bottom:1px solid #333;cursor:pointer}
+.song{padding:8px;border-bottom:1px solid #333;cursor:pointer}
 .song:hover{background:#1a2347}
-.setlist-item{padding:8px;border-bottom:1px solid #333}
+pre{white-space:pre-wrap;font-family:monospace}
+button{margin:5px}

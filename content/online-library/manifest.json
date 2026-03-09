@@ -1,14 +1,14 @@
 {
-  "version": "1.1",
+  "version": "1.3",
   "musics": [
     {
-      "title": "Exemplo Worship",
-      "artist": "Demo",
+      "title": "Demo Worship",
+      "artist": "Sample",
       "lyrics": "G D Em C"
     },
     {
-      "title": "Exemplo Noite",
-      "artist": "Demo Band",
+      "title": "Demo Noite",
+      "artist": "Sample",
       "lyrics": "A E F#m D"
     }
   ]
