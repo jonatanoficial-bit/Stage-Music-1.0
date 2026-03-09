@@ -1,0 +1,37 @@
+{
+  "id": "dlc-coro",
+  "name": "DLC Coral Flow",
+  "version": "0.9.0",
+  "author": "Palco Pro",
+  "description": "Expansão demo com foco em arranjos coletivos e refrões fortes.",
+  "required": false,
+  "themeAccent": "#5de6c2",
+  "songs": [
+    {
+      "id": "coro-eco-vivo",
+      "title": "Eco Vivo",
+      "artist": "Choir Demo",
+      "key": "Bb",
+      "bpm": 110,
+      "type": "text",
+      "format": "cifra",
+      "tags": ["coro", "resposta"],
+      "notes": "Separar naipes no pré-refrão.",
+      "shortcuts": {"cue": "C"},
+      "content": "[Verso]\nBb               F\nUma só voz vai subir daqui\nGm                 Eb\nComo um eco vivo que não vai cair\n\n[Refrão]\nBb              F\nCanta mais alto, deixa expandir\nGm                 Eb\nEsse refrão nasceu pra florir"
+    },
+    {
+      "id": "coro-movimento-azul",
+      "title": "Movimento Azul",
+      "artist": "Choir Demo",
+      "key": "Db",
+      "bpm": 96,
+      "type": "text",
+      "format": "letra",
+      "tags": ["camadas", "grande final"],
+      "notes": "Final com fermata curta.",
+      "shortcuts": {"cue": "D"},
+      "content": "[Verso]\nNo movimento azul da madrugada\nTodo o coro aprende a respirar\n\n[Refrão]\nVem sobre nós, deixa acender\nO som que faz a vida renascer"
+    }
+  ]
+}

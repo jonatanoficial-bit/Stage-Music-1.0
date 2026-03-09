@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a0d18" />
+    <meta
+      name="description"
+      content="Palco Pro é um app mobile-first para músicos organizarem cifras, letras, PDFs e repertórios com modo palco e expansão por DLC."
+    />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./assets/icons/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./assets/icons/icon-192.png" />
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+    <title>Palco Pro — Repertório mobile-first para músicos</title>
+  </head>
+  <body>
+    <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+    <div class="dialog-backdrop" id="dialogBackdrop" aria-hidden="true">
+      <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
+        <div class="dialog__header">
+          <div>
+            <div class="kicker">Visualização rápida</div>
+            <h3 id="dialogTitle">Detalhes da música</h3>
+          </div>
+          <button class="icon-button" id="dialogClose" type="button" aria-label="Fechar diálogo">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.3 5.71 12 12l6.3 6.29-1.41 1.41L10.59 13.4 4.29 19.7 2.88 18.29 9.17 12 2.88 5.71 4.29 4.3l6.3 6.29 6.3-6.29z"/></svg>
+          </button>
+        </div>
+        <div class="dialog__body" id="dialogBody"></div>
+        <div class="dialog__footer">
+          <button class="pill-button pill-button--ghost" id="dialogSecondary" type="button">Fechar</button>
+          <button class="pill-button" id="dialogPrimary" type="button">Abrir no palco</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="topbar__inner">
+          <div class="brand">
+            <div class="brand__mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M16 3v10.55a4 4 0 1 1-2-3.45V7.72l-6 1.5v7.33a4 4 0 1 1-2-3.45V7.66A2 2 0 0 1 7.52 5.7L16 3z"/></svg>
+            </div>
+            <div class="brand__text">
+              <span class="brand__title">Palco Pro</span>
+              <span class="brand__subtitle">Repertório premium para músicos, cantores e equipes</span>
+            </div>
+          </div>
+
+          <div class="topbar__actions">
+            <div class="mini-stat">
+              <span>Modo</span>
+              <strong id="topbarMode">Show</strong>
+            </div>
+            <button class="icon-button" id="openQuickGuide" type="button" aria-label="Abrir guia de atalhos">
+              <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10.01 10.01 0 0 0 12 2Zm0 15a1.25 1.25 0 1 1 1.25-1.25A1.25 1.25 0 0 1 12 17Zm1.78-6.88-.72.74a2.86 2.86 0 0 0-.81 2.14h-1.9a4.58 4.58 0 0 1 1.18-3.07l1-.99a1.64 1.64 0 0 0 .47-1.12 1.72 1.72 0 1 0-3.44 0H7.66a4.34 4.34 0 1 1 8.68 0 3.48 3.48 0 0 1-1.56 2.3Z"/></svg>
+            </button>
+            <button class="icon-button" id="exportLibraryButton" type="button" aria-label="Exportar backup do conteúdo local">
+              <svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5Zm7-18-5.5 5.5 1.42 1.42L11 5.83V16h2V5.83l3.08 3.09 1.42-1.42Z"/></svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div class="layout-desktop">
+        <nav class="bottom-nav" aria-label="Navegação principal">
+          <button class="nav-button is-active" type="button" data-route="biblioteca">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v2H4Zm0 7h16v2H4Zm0 7h10v2H4Z"/></svg>
+            <span class="nav-button__label"><strong>Biblioteca</strong><small>Músicas</small></span>
+          </button>
+          <button class="nav-button" type="button" data-route="repertorio">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v4H5Zm0 5h14v4H5Zm0 5h14v4H5Z"/></svg>
+            <span class="nav-button__label"><strong>Repertório</strong><small>Ordem</small></span>
+          </button>
+          <button class="nav-button" type="button" data-route="palco">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 9l10 6 10-6Zm-8 9 8 4.8 8-4.8V18l-8 4-8-4Z"/></svg>
+            <span class="nav-button__label"><strong>Palco</strong><small>Execução</small></span>
+          </button>
+          <button class="nav-button" type="button" data-route="expansoes">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 2v4H7a2 2 0 0 0-2 2v4H1v2h4v4a2 2 0 0 0 2 2h4v4h2v-4h4a2 2 0 0 0 2-2v-4h4v-2h-4V8a2 2 0 0 0-2-2h-4V2Zm6 16H7V8h10Z"/></svg>
+            <span class="nav-button__label"><strong>Expansões</strong><small>DLC</small></span>
+          </button>
+          <button class="nav-button" type="button" data-route="admin">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a3 3 0 0 1 3 3v1.08a6.98 6.98 0 0 1 2.14 1.24l.77-.45a3 3 0 1 1 3 5.2l-.77.44a7.2 7.2 0 0 1 0 2.48l.77.45a3 3 0 1 1-3 5.19l-.77-.44A7 7 0 0 1 15 21.92V23a3 3 0 0 1-6 0v-1.08a6.98 6.98 0 0 1-2.14-1.24l-.77.44a3 3 0 0 1-3-5.19l.77-.45a7.2 7.2 0 0 1 0-2.48l-.77-.44a3 3 0 1 1 3-5.2l.77.45A7 7 0 0 1 9 6.08V5a3 3 0 0 1 3-3Zm0 7a3 3 0 1 0 3 3 3 3 0 0 0-3-3Z"/></svg>
+            <span class="nav-button__label"><strong>Admin</strong><small>Gestão</small></span>
+          </button>
+        </nav>
+
+        <main>
+          <section class="view is-active" data-view="biblioteca" aria-labelledby="bibliotecaTitle">
+            <div class="hero">
+              <div class="hero__content">
+                <div class="kicker">Mobile-first • offline-friendly • pronto para GitHub Pages</div>
+                <div>
+                  <h1 id="bibliotecaTitle">Organize cifras, letras, PDFs e a ordem do show sem atrito.</h1>
+                  <p>
+                    Biblioteca rápida para ensaio e palco, com modo de execução, transposição, atalhos e estrutura de DLC para crescer sem mexer no core.
+                  </p>
+                </div>
+                <div class="hero__actions">
+                  <button class="pill-button" type="button" data-route-jump="palco">Entrar em modo palco</button>
+                  <button class="pill-button pill-button--ghost" type="button" id="addDemoToSetlist">Montar repertório demo</button>
+                </div>
+                <div class="metrics-grid">
+                  <article class="metric-card">
+                    <span>Músicas carregadas</span>
+                    <strong id="metricSongs">0</strong>
+                  </article>
+                  <article class="metric-card">
+                    <span>DLCs ativos</span>
+                    <strong id="metricPacks">0</strong>
+                  </article>
+                  <article class="metric-card">
+                    <span>Faixas no repertório</span>
+                    <strong id="metricSetlist">0</strong>
+                  </article>
+                  <article class="metric-card">
+                    <span>Modo palco</span>
+                    <strong id="metricStage">Pronto</strong>
+                  </article>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel search-panel">
+              <div class="search-bar">
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M10 4a6 6 0 1 1 0 12 6 6 0 0 1 0-12m0-2a8 8 0 1 0 4.9 14.32l4.39 4.39 1.41-1.41-4.39-4.39A8 8 0 0 0 10 2Z"/></svg>
+                <input id="searchInput" type="search" placeholder="Buscar por título, artista, tom, tag ou pack" autocomplete="off" />
+              </div>
+              <div class="filter-row" id="filterRow"></div>
+              <div class="section-toolbar">
+                <div class="kicker">Toque na música para abrir, editar no Admin ou incluir no repertório</div>
+              </div>
+            </div>
+
+            <div class="song-grid" id="libraryGrid"></div>
+          </section>
+
+          <section class="view" data-view="repertorio" aria-labelledby="repertorioTitle">
+            <div class="view-header">
+              <h2 id="repertorioTitle">Repertório do show</h2>
+              <p>Monte a ordem do set, altere posições com um toque e entre em execução imediatamente.</p>
+            </div>
+
+            <div class="admin-grid">
+              <article class="panel setlist-summary">
+                <div class="stage-card__header">
+                  <div>
+                    <h3>Configuração rápida do set</h3>
+                    <p class="helper-text">O repertório atual é salvo localmente e pode ser exportado junto com o restante do conteúdo.</p>
+                  </div>
+                  <span class="status-pill status-pill--live">Ao vivo</span>
+                </div>
+                <label class="input-label">
+                  <span>Nome do repertório</span>
+                  <div class="input-shell">
+                    <input id="setlistTitleInput" type="text" placeholder="Ex.: Culto das 19h / Pocket Acústico" />
+                  </div>
+                </label>
+                <div class="quick-grid">
+                  <button class="quick-action" type="button" id="startSetButton">
+                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7Z"/></svg>
+                    <strong>Começar set</strong>
+                    <small>Abre o modo palco</small>
+                  </button>
+                  <button class="quick-action" type="button" id="clearSetButton">
+                    <svg viewBox="0 0 24 24"><path d="M6 7h12l-1 13H7Zm3-4h6l1 2h4v2H4V5h4Z"/></svg>
+                    <strong>Limpar ordem</strong>
+                    <small>Recomeça rápido</small>
+                  </button>
+                  <button class="quick-action" type="button" id="exportSetButton">
+                    <svg viewBox="0 0 24 24"><path d="M12 3v10m0 0 4-4m-4 4-4-4M5 17h14v4H5Z"/></svg>
+                    <strong>Exportar set</strong>
+                    <small>JSON pronto</small>
+                  </button>
+                  <button class="quick-action" type="button" id="importSetButton">
+                    <svg viewBox="0 0 24 24"><path d="M12 21V11m0 0 4 4m-4-4-4 4M5 3h14v4H5Z"/></svg>
+                    <strong>Importar set</strong>
+                    <small>Trazer outra ordem</small>
+                  </button>
+                </div>
+              </article>
+
+              <article class="panel keyboard-card">
+                <div class="keyboard-card__header">
+                  <div>
+                    <h3>Atalhos de palco</h3>
+                    <p>Funciona em teclado físico, notebook e tablet com capa-teclado.</p>
+                  </div>
+                  <button class="pill-button pill-button--ghost" type="button" id="showGuideInline">Ver guia</button>
+                </div>
+                <div class="keyboard-grid" id="shortcutPreview"></div>
+              </article>
+            </div>
+
+            <div class="panel">
+              <div class="stage-card__header">
+                <div>
+                  <h3>Ordem atual</h3>
+                  <p class="helper-text">Use subir, descer, remover ou abrir diretamente em modo palco.</p>
+                </div>
+                <span class="badge badge--accent" id="setlistCountBadge">0 faixas</span>
+              </div>
+              <div class="setlist-grid" id="setlistGrid"></div>
+            </div>
+          </section>
+
+          <section class="view" data-view="palco" aria-labelledby="palcoTitle">
+            <div class="view-header">
+              <h2 id="palcoTitle">Modo palco</h2>
+              <p>Foco total na execução: letras ou cifras grandes, navegação veloz, transposição, auto-scroll e salto para a próxima faixa.</p>
+            </div>
+
+            <div class="stage-layout">
+              <article class="stage-card">
+                <div class="stage-card__header">
+                  <div>
+                    <h3 id="stageSongTitle">Nenhuma música selecionada</h3>
+                    <div class="stage-card__meta" id="stageSongMeta"></div>
+                  </div>
+                  <span class="status-pill" id="stageModeBadge">Aguardando</span>
+                </div>
+
+                <div class="stage-toolbar" id="stageToolbar">
+                  <button class="control-chip" type="button" id="prevSongButton" aria-label="Música anterior">
+                    <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6Zm10.5 0L9 12l7.5 6Z"/></svg><span>Anterior</span>
+                  </button>
+                  <button class="control-chip" type="button" id="nextSongButton" aria-label="Próxima música">
+                    <svg viewBox="0 0 24 24"><path d="M16 6h2v12h-2Zm-8.5 0L15 12l-7.5 6Z"/></svg><span>Próxima</span>
+                  </button>
+                  <button class="control-chip" type="button" id="fontDownButton" aria-label="Diminuir fonte">
+                    <svg viewBox="0 0 24 24"><path d="M5 13h14v-2H5Z"/></svg><span>Fonte -</span>
+                  </button>
+                  <button class="control-chip" type="button" id="fontUpButton" aria-label="Aumentar fonte">
+                    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6Z"/></svg><span>Fonte +</span>
+                  </button>
+                  <button class="control-chip" type="button" id="transposeDownButton" aria-label="Baixar tom">
+                    <svg viewBox="0 0 24 24"><path d="M7 15h10v-2H7Zm5-12 7 7h-4v8h-6v-8H5Z"/></svg><span>Tom -</span>
+                  </button>
+                  <button class="control-chip" type="button" id="transposeUpButton" aria-label="Subir tom">
+                    <svg viewBox="0 0 24 24"><path d="M7 11h10v2H7Zm5 10-7-7h4V6h6v8h4Z"/></svg><span>Tom +</span>
+                  </button>
+                  <button class="control-chip" type="button" id="scrollToggleButton" aria-label="Auto-scroll">
+                    <svg viewBox="0 0 24 24"><path d="M12 5 6 11h12Zm0 14 6-6H6Z"/></svg><span>Scroll</span>
+                  </button>
+                  <button class="control-chip" type="button" id="fullscreenButton" aria-label="Tela cheia">
+                    <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7Zm0-4h2V7h3V5H5v5Zm10 7h-3v2h5v-5h-2Zm0-12h-3V7h3v3h2V5Z"/></svg><span>Tela cheia</span>
+                  </button>
+                </div>
+
+                <div class="stage-viewer" id="stageViewer">
+                  <div class="stage-viewer__placeholder" id="stagePlaceholder">
+                    <div>
+                      <div class="empty-state__icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 3 2 9l10 6 10-6Zm0 8.7L4.41 9 12 4.3 19.59 9ZM4 12l8 4.8 8-4.8V18l-8 4-8-4Z"/></svg>
+                      </div>
+                      <h3>Selecione uma música ou inicie um repertório</h3>
+                      <p>Toque em qualquer faixa da biblioteca ou do repertório para abrir aqui.</p>
+                    </div>
+                  </div>
+                  <div class="stage-viewer__scroll hidden" id="stageScrollArea">
+                    <pre class="stage-viewer__text" id="stageText"></pre>
+                    <iframe class="stage-pdf hidden" id="stagePdf" title="Visualizador PDF"></iframe>
+                  </div>
+                </div>
+              </article>
+
+              <div class="shortcuts-grid">
+                <article class="keyboard-card">
+                  <div class="keyboard-card__header">
+                    <div>
+                      <h3>Resumo de navegação</h3>
+                      <p>Gestos laterais no celular também trocam a faixa.</p>
+                    </div>
+                    <span class="status-pill status-pill--success" id="autoscrollBadge">Scroll off</span>
+                  </div>
+                  <div class="keyboard-grid" id="shortcutList"></div>
+                </article>
+
+                <article class="panel">
+                  <div class="stage-card__header">
+                    <div>
+                      <h3>Fila atual</h3>
+                      <p class="helper-text">Próximas músicas prontas para abrir sem sair do modo palco.</p>
+                    </div>
+                  </div>
+                  <div class="list-stack" id="stageQueue"></div>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <section class="view" data-view="expansoes" aria-labelledby="expansoesTitle">
+            <div class="view-header">
+              <h2 id="expansoesTitle">Expansões / DLC</h2>
+              <p>Ative, desative, instale e exporte pacotes de conteúdo sem mexer no núcleo do aplicativo.</p>
+            </div>
+
+            <div class="admin-grid">
+              <article class="panel">
+                <div class="admin-card__header">
+                  <div>
+                    <h3>Arquitetura modular pronta</h3>
+                    <p>Os pacotes usam manifesto JSON com versionamento, metadados e músicas independentes.</p>
+                  </div>
+                  <span class="status-pill status-pill--live">Hot load</span>
+                </div>
+                <div class="quick-grid">
+                  <button class="quick-action" type="button" id="importPackButton">
+                    <svg viewBox="0 0 24 24"><path d="M12 21V11m0 0 4 4m-4-4-4 4M5 3h14v4H5Z"/></svg>
+                    <strong>Instalar pack</strong>
+                    <small>Importa JSON local</small>
+                  </button>
+                  <button class="quick-action" type="button" id="createPackButton">
+                    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6Z"/></svg>
+                    <strong>Novo pack</strong>
+                    <small>Cria no Admin</small>
+                  </button>
+                  <button class="quick-action" type="button" id="reloadPacksButton">
+                    <svg viewBox="0 0 24 24"><path d="M12 6V3L8 7l4 4V8a4 4 0 1 1-4 4H6a6 6 0 1 0 6-6Z"/></svg>
+                    <strong>Recarregar</strong>
+                    <small>Busca manifestos</small>
+                  </button>
+                  <button class="quick-action" type="button" id="exportAllPacksButton">
+                    <svg viewBox="0 0 24 24"><path d="M12 3v10m0 0 4-4m-4 4-4-4M5 17h14v4H5Z"/></svg>
+                    <strong>Backup packs</strong>
+                    <small>Exporta locais</small>
+                  </button>
+                </div>
+              </article>
+
+              <article class="panel">
+                <div class="admin-card__header">
+                  <div>
+                    <h3>Estratégia de crescimento</h3>
+                    <p>Conteúdos locais ficam isolados e podem evoluir depois para API/backend sem quebrar o front.</p>
+                  </div>
+                </div>
+                <div class="list-stack">
+                  <div class="list-row">
+                    <div class="list-row__content">
+                      <strong>/content/registry.json</strong>
+                      <span>Descobre os packs embutidos</span>
+                    </div>
+                    <span class="badge">Core</span>
+                  </div>
+                  <div class="list-row">
+                    <div class="list-row__content">
+                      <strong>localStorage + IndexedDB</strong>
+                      <span>Guarda preferências, packs locais e PDFs enviados pelo Admin</span>
+                    </div>
+                    <span class="badge">Local</span>
+                  </div>
+                  <div class="list-row">
+                    <div class="list-row__content">
+                      <strong>Manifestos versionados</strong>
+                      <span>Permite instalar/ativar sem alterar o núcleo</span>
+                    </div>
+                    <span class="badge">DLC</span>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <div class="pack-grid" id="packGrid"></div>
+          </section>
+
+          <section class="view" data-view="admin" aria-labelledby="adminTitle">
+            <div class="view-header">
+              <h2 id="adminTitle">Área administrativa</h2>
+              <p>Login local inicial, CRUD de músicas, edição de metadados, upload de PDF e preparação para backend futuro.</p>
+            </div>
+
+            <div class="admin-grid" id="adminLoginCard">
+              <article class="admin-card">
+                <div class="admin-card__header">
+                  <div>
+                    <h3>Acesso do administrador</h3>
+                    <p>Senha inicial demo: <strong>palco123</strong>. Troque assim que entrar.</p>
+                  </div>
+                  <span class="status-pill">Local auth</span>
+                </div>
+                <form id="adminLoginForm" class="admin-card__body">
+                  <label class="input-label">
+                    <span>Senha</span>
+                    <div class="input-shell">
+                      <input id="adminPasswordInput" type="password" placeholder="Digite a senha do admin" autocomplete="current-password" required />
+                    </div>
+                  </label>
+                  <button class="action-button" type="submit">Entrar no Admin</button>
+                </form>
+              </article>
+            </div>
+
+            <div class="admin-grid hidden" id="adminPanel">
+              <article class="admin-card">
+                <div class="admin-card__header">
+                  <div>
+                    <h3>Operações rápidas</h3>
+                    <p>Gerencie conteúdo local, packs e configurações do sistema.</p>
+                  </div>
+                  <button class="pill-button pill-button--ghost" id="adminLogoutButton" type="button">Sair</button>
+                </div>
+                <div class="segmented" id="adminTabButtons">
+                  <button class="is-active" type="button" data-admin-tab="songs">Músicas</button>
+                  <button type="button" data-admin-tab="packs">Packs</button>
+                  <button type="button" data-admin-tab="settings">Configurações</button>
+                </div>
+
+                <div class="admin-card__body" id="adminTabSongs">
+                  <div class="form-grid form-grid--two">
+                    <label class="input-label">
+                      <span>Título</span>
+                      <div class="input-shell"><input id="songTitleInput" type="text" placeholder="Ex.: Minha Música" /></div>
+                    </label>
+                    <label class="input-label">
+                      <span>Artista / Ministério</span>
+                      <div class="input-shell"><input id="songArtistInput" type="text" placeholder="Ex.: Banda da Casa" /></div>
+                    </label>
+                    <label class="input-label">
+                      <span>Tom</span>
+                      <div class="input-shell"><input id="songKeyInput" type="text" placeholder="Ex.: C, Dm, F#" /></div>
+                    </label>
+                    <label class="input-label">
+                      <span>BPM</span>
+                      <div class="input-shell"><input id="songBpmInput" type="number" min="0" max="320" placeholder="Ex.: 72" /></div>
+                    </label>
+                    <label class="input-label">
+                      <span>Formato</span>
+                      <div class="input-shell">
+                        <select id="songTypeInput">
+                          <option value="text">Texto / cifra</option>
+                          <option value="pdf">PDF / partitura</option>
+                        </select>
+                      </div>
+                    </label>
+                    <label class="input-label">
+                      <span>Pack de destino</span>
+                      <div class="input-shell">
+                        <select id="songPackInput"></select>
+                      </div>
+                    </label>
+                  </div>
+
+                  <label class="input-label" id="songTextWrapper">
+                    <span>Letra / cifra</span>
+                    <div class="input-shell"><textarea id="songContentInput" placeholder="Cole aqui a cifra, letra ou texto da música"></textarea></div>
+                  </label>
+
+                  <label class="input-label hidden" id="songPdfWrapper">
+                    <span>Arquivo PDF</span>
+                    <div class="file-input">
+                      <div class="file-input__meta">
+                        <strong id="songPdfLabel">Nenhum PDF enviado</strong>
+                        <span class="muted">O arquivo é salvo localmente no navegador via IndexedDB.</span>
+                      </div>
+                      <label class="file-input__button" for="songPdfInput">Selecionar PDF</label>
+                      <input id="songPdfInput" type="file" accept="application/pdf" />
+                    </div>
+                  </label>
+
+                  <label class="input-label">
+                    <span>Notas de palco / observações</span>
+                    <div class="input-shell"><textarea id="songNotesInput" placeholder="Ex.: entrada do batera, dinâmica, corte, capo, click"></textarea></div>
+                  </label>
+
+                  <label class="input-label">
+                    <span>Tags (separadas por vírgula)</span>
+                    <div class="input-shell"><input id="songTagsInput" type="text" placeholder="worship, balada, abertura" /></div>
+                  </label>
+
+                  <input id="songEditId" type="hidden" />
+                  <div class="form-actions">
+                    <button class="pill-button" type="button" id="saveSongButton">Salvar música</button>
+                    <button class="pill-button pill-button--ghost" type="button" id="resetSongButton">Limpar formulário</button>
+                    <button class="pill-button pill-button--warm hidden" type="button" id="duplicateSongButton">Duplicar atual</button>
+                  </div>
+                </div>
+
+                <div class="admin-card__body hidden" id="adminTabPacks">
+                  <div class="form-grid form-grid--two">
+                    <label class="input-label">
+                      <span>ID do pack</span>
+                      <div class="input-shell"><input id="packIdInput" type="text" placeholder="Ex.: worship-noite" /></div>
+                    </label>
+                    <label class="input-label">
+                      <span>Nome do pack</span>
+                      <div class="input-shell"><input id="packNameInput" type="text" placeholder="Ex.: Worship Noite" /></div>
+                    </label>
+                    <label class="input-label">
+                      <span>Versão</span>
+                      <div class="input-shell"><input id="packVersionInput" type="text" placeholder="1.0.0" /></div>
+                    </label>
+                    <label class="input-label">
+                      <span>Cor de destaque</span>
+                      <div class="input-shell"><input id="packColorInput" type="text" placeholder="#7c5cff" /></div>
+                    </label>
+                  </div>
+                  <label class="input-label">
+                    <span>Descrição</span>
+                    <div class="input-shell"><textarea id="packDescriptionInput" placeholder="Explique o propósito do pack"></textarea></div>
+                  </label>
+                  <div class="form-actions">
+                    <button class="pill-button" type="button" id="savePackButton">Salvar pack</button>
+                    <button class="pill-button pill-button--ghost" type="button" id="resetPackButton">Limpar pack</button>
+                  </div>
+                  <div class="list-stack" id="adminPackList"></div>
+                </div>
+
+                <div class="admin-card__body hidden" id="adminTabSettings">
+                  <label class="input-label">
+                    <span>Nova senha admin</span>
+                    <div class="input-shell"><input id="newPasswordInput" type="password" placeholder="Escolha uma nova senha local" /></div>
+                  </label>
+                  <div class="form-actions">
+                    <button class="pill-button" type="button" id="savePasswordButton">Atualizar senha</button>
+                  </div>
+                  <div class="list-stack">
+                    <div class="list-row">
+                      <div class="list-row__content">
+                        <strong>Exportar backup completo</strong>
+                        <span>Baixa músicas locais, packs locais, repertório e preferências em JSON.</span>
+                      </div>
+                      <div class="list-row__actions">
+                        <button class="pill-button pill-button--ghost" type="button" id="backupButton">Exportar</button>
+                      </div>
+                    </div>
+                    <div class="list-row">
+                      <div class="list-row__content">
+                        <strong>Importar backup</strong>
+                        <span>Restaura um JSON exportado anteriormente.</span>
+                      </div>
+                      <div class="list-row__actions">
+                        <button class="pill-button pill-button--ghost" type="button" id="restoreButton">Importar</button>
+                      </div>
+                    </div>
+                    <div class="list-row">
+                      <div class="list-row__content">
+                        <strong>Limpar apenas dados locais</strong>
+                        <span>Remove músicas, packs e PDFs criados no navegador sem apagar o conteúdo base do projeto.</span>
+                      </div>
+                      <div class="list-row__actions">
+                        <button class="pill-button pill-button--danger" type="button" id="wipeLocalButton">Limpar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="admin-card">
+                <div class="admin-card__header">
+                  <div>
+                    <h3>Conteúdo local</h3>
+                    <p>Lista de músicas editáveis e packs criados pelo administrador.</p>
+                  </div>
+                  <span class="status-pill status-pill--success">Editável</span>
+                </div>
+                <div class="list-stack" id="adminSongList"></div>
+              </article>
+            </div>
+          </section>
+        </main>
+      </div>
+
+      <p class="footer-note">
+        Projeto demonstrativo preparado para expansão por manifesto JSON, armazenamento local e deploy estático via GitHub Pages.
+      </p>
+    </div>
+
+    <input id="hiddenImportInput" type="file" accept="application/json" class="hidden" />
+
+    <script type="module" src="./assets/js/app.js"></script>
+  </body>
+</html>

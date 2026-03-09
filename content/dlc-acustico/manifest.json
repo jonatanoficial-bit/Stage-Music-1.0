@@ -1,0 +1,37 @@
+{
+  "id": "dlc-acustico",
+  "name": "DLC Acústico Pocket",
+  "version": "1.2.0",
+  "author": "Palco Pro",
+  "description": "Expansão enxuta para voz e violão, pronta para importar ou ativar.",
+  "required": false,
+  "themeAccent": "#ffb454",
+  "songs": [
+    {
+      "id": "acustico-ponte-luz",
+      "title": "Ponte de Luz",
+      "artist": "Pocket Demo",
+      "key": "E",
+      "bpm": 88,
+      "type": "text",
+      "format": "cifra",
+      "tags": ["voz e violão", "acústico"],
+      "notes": "Introdução em dedilhado. Cortar último compasso para emendar na próxima.",
+      "shortcuts": {"cue": "A"},
+      "content": "[Intro]\nE   B   C#m   A\n\n[Verso]\nE               B\nToda vez que a noite quer fechar\nC#m                 A\nTua voz desenha um novo lugar\n\n[Refrão]\nE              B\nPonte de luz, me faz chegar\nC#m             A\nNo tom exato pra recomeçar"
+    },
+    {
+      "id": "acustico-sopro-sereno",
+      "title": "Sopro Sereno",
+      "artist": "Pocket Demo",
+      "key": "F",
+      "bpm": 64,
+      "type": "text",
+      "format": "letra",
+      "tags": ["calma", "ministração"],
+      "notes": "Pode repetir refrão ad lib.",
+      "shortcuts": {"cue": "B"},
+      "content": "[Verso]\nNo sopro sereno da tua presença\nMeu peito descansa, meu rumo clareia\n\n[Refrão]\nSopro sereno, fica aqui\nTorna mais leve tudo em mim"
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "id": "core",
+  "name": "Coleção Base",
+  "version": "1.0.0",
+  "author": "Palco Pro",
+  "description": "Pacote base com repertório demo para mostrar a estrutura do aplicativo.",
+  "required": true,
+  "themeAccent": "#7c5cff",
+  "songs": [
+    {
+      "id": "core-aurora-estrada",
+      "title": "Aurora da Estrada",
+      "artist": "Demo Session",
+      "key": "D",
+      "bpm": 92,
+      "type": "text",
+      "format": "cifra",
+      "tags": ["abertura", "mid tempo"],
+      "notes": "Intro com drive leve. Ponte sobe dinâmica na segunda repetição.",
+      "shortcuts": {"cue": "1"},
+      "content": "[Intro]\nD   A   Bm   G\n\n[Verso 1]\nD              A\nA luz rasgou o céu do interior\nBm                G\nTeu passo trouxe paz e direção\nD                 A\nSegui cantando sem olhar pra trás\nBm                 G\nNo mesmo tom do teu refrão\n\n[Pré-Refrão]\nEm            G\nQuando o medo escurecer\nBm            A\nTua voz me faz viver\n\n[Refrão]\nD              A\nAurora da estrada, vem me guiar\nBm              G\nTua chama acesa me faz continuar\nD              A\nNo som da madrugada eu vou tocar\nBm                 G\nE o coração inteiro vai cantar"
+    },
+    {
+      "id": "core-cidade-clara",
+      "title": "Cidade Clara",
+      "artist": "Demo Session",
+      "key": "G",
+      "bpm": 118,
+      "type": "text",
+      "format": "letra",
+      "tags": ["animada", "refrão forte"],
+      "notes": "Funciona bem para abertura de set. Refrão com claps.",
+      "shortcuts": {"cue": "2"},
+      "content": "[Verso]\nNas janelas dessa cidade clara\nTodo sonho quer nascer\nCada passo vira estrada\nQuando a banda faz tremer\n\n[Refrão]\nCidade clara, pode acender\nO palco inteiro pra gente viver\nCidade clara, deixa soar\nO coro alto sem parar"
+    },
+    {
+      "id": "core-norte-livre",
+      "title": "Norte Livre",
+      "artist": "Demo Session",
+      "key": "A",
+      "bpm": 76,
+      "type": "text",
+      "format": "cifra",
+      "tags": ["balada", "dinâmica"],
+      "notes": "Boa para momento mais intimista. Final em mezzo piano.",
+      "shortcuts": {"cue": "3"},
+      "content": "[Intro]\nA   E   F#m   D\n\n[Verso]\nA                 E\nQuando o vento muda a direção\nF#m              D\nTeu silêncio fala ao coração\nA                 E\nNo compasso manso da canção\nF#m                  D\nEu encontro um norte livre então\n\n[Refrão]\nA               E\nNorte livre, sopra sobre mim\nF#m              D\nFaz do medo um novo jardim\nA                 E\nTeu caminho eu quero perseguir\nF#m                D\nAté o último acorde me vestir"
+    },
+    {
+      "id": "core-linha-mar",
+      "title": "Linha do Mar",
+      "artist": "Demo Session",
+      "key": "C",
+      "bpm": 102,
+      "type": "text",
+      "format": "cifra",
+      "tags": ["folk", "leve"],
+      "notes": "Capotraste opcional na 5ª casa.",
+      "shortcuts": {"cue": "4"},
+      "content": "[Verso]\nC               G\nNa linha do mar eu ouvi teu som\nAm               F\nCada nota veio como sol de verão\nC               G\nFez morada funda no meu coração\nAm                 F\nE o refrão nasceu da tua direção\n\n[Refrão]\nC             G\nLinha do mar, me leva além\nAm              F\nDo que meus olhos podem ver também"
+    }
+  ]
+}
