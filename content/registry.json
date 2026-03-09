@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-09T00:00:00Z",
+  "generatedAt": "2026-03-09T14:20:00Z",
   "packs": [
     {
       "id": "core",
@@ -14,6 +14,11 @@
     {
       "id": "dlc-coro",
       "path": "./content/dlc-coro/manifest.json",
+      "required": false
+    },
+    {
+      "id": "online-library",
+      "path": "./content/online-library/manifest.json",
       "required": false
     }
   ]

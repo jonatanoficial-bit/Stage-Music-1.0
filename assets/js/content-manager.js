@@ -21,6 +21,16 @@ const DEFAULT_LOCAL_PACK = {
   songs: []
 };
 
+const ONLINE_LIBRARY_PACK = {
+  id: 'online-publico',
+  name: 'Banco online público',
+  version: '1.0.0',
+  description: 'Pack textual preparado para exportação ao GitHub e leitura por todos os usuários.',
+  themeAccent: '#37c8ab',
+  required: false,
+  songs: []
+};
+
 async function fetchJSON(path) {
   const response = await fetch(path, { cache: 'no-cache' });
   if (!response.ok) {
@@ -36,6 +46,7 @@ function normalizeSong(song, pack) {
     artist: song.artist || 'Sem artista',
     key: song.key || '',
     bpm: Number(song.bpm) || 0,
+    capo: Number(song.capo) || 0,
     type: song.type === 'pdf' ? 'pdf' : 'text',
     format: song.format || (song.type === 'pdf' ? 'partitura' : 'cifra'),
     tags: normalizeArray(song.tags),
@@ -73,8 +84,10 @@ function normalizePack(pack, isLocal = false) {
 }
 
 function ensureDefaultLocalPack(packs) {
-  if (packs.some((pack) => pack.id === DEFAULT_LOCAL_PACK.id)) return packs;
-  return [...packs, { ...DEFAULT_LOCAL_PACK }];
+  const ensured = [...packs];
+  if (!ensured.some((pack) => pack.id === DEFAULT_LOCAL_PACK.id)) ensured.push({ ...DEFAULT_LOCAL_PACK });
+  if (!ensured.some((pack) => pack.id === ONLINE_LIBRARY_PACK.id)) ensured.push({ ...ONLINE_LIBRARY_PACK });
+  return ensured;
 }
 
 export class ContentManager {
@@ -138,6 +151,7 @@ export class ContentManager {
         artist: song.artist,
         key: song.key,
         bpm: song.bpm,
+        capo: song.capo,
         type: song.type,
         format: song.format,
         tags: song.tags,
@@ -214,6 +228,7 @@ export class ContentManager {
       artist: songInput.artist || 'Sem artista',
       key: songInput.key || '',
       bpm: Number(songInput.bpm) || 0,
+      capo: Number(songInput.capo) || 0,
       type: songInput.type === 'pdf' ? 'pdf' : 'text',
       format: songInput.format || (songInput.type === 'pdf' ? 'partitura' : 'cifra'),
       tags: normalizeArray(songInput.tags),
@@ -318,6 +333,41 @@ export class ContentManager {
     return this.getSnapshot();
   }
 
+
+  async exportPublicLibraryPack() {
+    const pack = this.localPacks.find((item) => item.id === ONLINE_LIBRARY_PACK.id);
+    if (!pack) throw new Error('Pack online público não encontrado.');
+
+    const exportedSongs = pack.songs
+      .filter((song) => song.type === 'text' && (song.content || '').trim())
+      .map((song) => ({
+        id: song.id,
+        title: song.title,
+        artist: song.artist,
+        key: song.key,
+        bpm: song.bpm,
+        capo: song.capo,
+        type: 'text',
+        format: song.format || 'cifra',
+        tags: song.tags,
+        notes: song.notes,
+        shortcuts: song.shortcuts,
+        content: song.content
+      }));
+
+    return {
+      schema: 'stage-music-online-library/v1',
+      id: 'online-library',
+      name: 'Biblioteca Online Stage Music',
+      version: pack.version || '1.0.0',
+      author: pack.author || 'Stage Music Admin',
+      description: 'Biblioteca pública textual publicada pelo administrador no GitHub.',
+      themeAccent: '#37c8ab',
+      songs: exportedSongs,
+      buildLabel: new Date().toISOString()
+    };
+  }
+
   async exportPack(packId) {
     const pack = this.localPacks.find((item) => item.id === packId);
     if (!pack) throw new Error('Pack local não encontrado.');
@@ -330,6 +380,7 @@ export class ContentManager {
         artist: song.artist,
         key: song.key,
         bpm: song.bpm,
+        capo: song.capo,
         type: song.type,
         format: song.format,
         tags: song.tags,

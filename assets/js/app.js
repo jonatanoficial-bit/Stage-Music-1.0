@@ -77,6 +77,7 @@ const elements = {
   songArtistInput: document.querySelector('#songArtistInput'),
   songKeyInput: document.querySelector('#songKeyInput'),
   songBpmInput: document.querySelector('#songBpmInput'),
+  songCapoInput: document.querySelector('#songCapoInput'),
   songTypeInput: document.querySelector('#songTypeInput'),
   songPackInput: document.querySelector('#songPackInput'),
   songContentInput: document.querySelector('#songContentInput'),
@@ -94,6 +95,8 @@ const elements = {
   packColorInput: document.querySelector('#packColorInput'),
   packDescriptionInput: document.querySelector('#packDescriptionInput'),
   newPasswordInput: document.querySelector('#newPasswordInput'),
+  exportOnlineLibraryButton: document.querySelector('#exportOnlineLibraryButton'),
+  downloadOnlineGuideButton: document.querySelector('#downloadOnlineGuideButton'),
   hiddenImportInput: document.querySelector('#hiddenImportInput'),
   toastStack: document.querySelector('#toastStack'),
   dialogBackdrop: document.querySelector('#dialogBackdrop'),
@@ -172,6 +175,7 @@ function buildMetaChips(song, options = {}) {
   ];
 
   if (song.bpm) chips.push(`<span class="badge">${escapeHTML(String(song.bpm))} BPM</span>`);
+  if (song.capo) chips.push(`<span class="badge">Capo ${escapeHTML(String(song.capo))}</span>`);
   if (song.packName) chips.push(`<span class="badge">${escapeHTML(song.packName)}</span>`);
   if (options.extra) chips.push(...options.extra);
 
@@ -522,7 +526,7 @@ function renderAdminSongList() {
   elements.adminSongList.innerHTML = songs
     .map((song) => {
       const title = escapeHTML(song.title);
-      const subtitle = `${escapeHTML(song.artist)} • ${escapeHTML(song.packName)} • ${escapeHTML(formatSongType(song.type))}`;
+      const subtitle = `${escapeHTML(song.artist)} • ${escapeHTML(song.packName)} • ${escapeHTML(formatSongType(song.type))}${song.capo ? ` • Capo ${escapeHTML(String(song.capo))}` : ''}`;
       return `
         <div class="list-row">
           <div class="list-row__content">
@@ -590,6 +594,7 @@ function resetSongForm() {
   elements.songArtistInput.value = '';
   elements.songKeyInput.value = '';
   elements.songBpmInput.value = '';
+  elements.songCapoInput.value = '';
   elements.songTypeInput.value = 'text';
   elements.songContentInput.value = '';
   elements.songNotesInput.value = '';
@@ -618,6 +623,7 @@ function fillSongForm(song, duplicate = false) {
   elements.songArtistInput.value = song.artist || '';
   elements.songKeyInput.value = song.key || '';
   elements.songBpmInput.value = song.bpm || '';
+  elements.songCapoInput.value = song.capo || '';
   elements.songTypeInput.value = song.type || 'text';
   elements.songContentInput.value = song.content || '';
   elements.songNotesInput.value = song.notes || '';
@@ -994,6 +1000,7 @@ async function saveSongFromForm(duplicate = false) {
     artist: elements.songArtistInput.value.trim(),
     key: elements.songKeyInput.value.trim(),
     bpm: elements.songBpmInput.value,
+    capo: elements.songCapoInput.value,
     type,
     packId,
     content: type === 'text' ? elements.songContentInput.value : '',
@@ -1254,6 +1261,35 @@ function bindEvents() {
   });
 
   document.querySelector('#backupButton')?.addEventListener('click', () => exportBackup().catch((error) => showToast(error.message, 'error')));
+  elements.exportOnlineLibraryButton?.addEventListener('click', async () => {
+    try {
+      const manifest = await contentManager.exportPublicLibraryPack();
+      downloadJSON('manifest-online-stage-music.json', manifest);
+      showToast('Manifesto público exportado. Envie para /content/online-library/manifest.json no GitHub.', 'success');
+    } catch (error) {
+      showToast(error.message, 'error');
+    }
+  });
+  elements.downloadOnlineGuideButton?.addEventListener('click', () => {
+    const guide = [
+      'Como publicar a biblioteca online Stage Music',
+      '',
+      '1. No Admin, salve suas músicas em texto no pack Banco online público.',
+      '2. Clique em Exportar manifesto online.',
+      '3. No GitHub, substitua o arquivo /content/online-library/manifest.json pelo arquivo exportado.',
+      '4. Faça commit e aguarde a atualização do GitHub Pages.',
+      '5. Todos os usuários verão esse conteúdo ao recarregar o site.',
+      '',
+      'Observação: use texto/cifra para o banco online público. PDFs devem ficar no modo local do usuário.'
+    ].join('\n');
+    const blob = new Blob([guide], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'guia-publicacao-stage-music.txt';
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 500);
+  });
   document.querySelector('#restoreButton')?.addEventListener('click', () => {
     state.pendingImportAction = 'backup';
     elements.hiddenImportInput.click();

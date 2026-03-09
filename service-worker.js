@@ -1,4 +1,4 @@
-const CACHE_NAME = 'palco-pro-cache-v1';
+const CACHE_NAME = 'stage-music-cache-v2';
 const APP_SHELL = [
   './',
   './index.html',
@@ -15,7 +15,8 @@ const APP_SHELL = [
   './content/registry.json',
   './content/core/manifest.json',
   './content/dlc-acustico/manifest.json',
-  './content/dlc-coro/manifest.json'
+  './content/dlc-coro/manifest.json',
+  './content/online-library/manifest.json'
 ];
 
 self.addEventListener('install', (event) => {

@@ -370,7 +370,8 @@
           <section class="view" data-view="admin" aria-labelledby="adminTitle">
             <div class="view-header">
               <h2 id="adminTitle">Área administrativa</h2>
-              <p>Login local inicial, CRUD de músicas, edição de metadados, upload de PDF e preparação para backend futuro.</p>
+              <p class="helper-text">Build: 2026-03-09 11:20 BRT • Stage Music v0.2.0</p>
+              <p>Login local inicial, CRUD de músicas, editor de cifras em texto para banco online público, upload de PDF local e preparação para backend futuro.</p>
             </div>
 
             <div class="admin-grid" id="adminLoginCard">
@@ -428,6 +429,10 @@
                       <div class="input-shell"><input id="songBpmInput" type="number" min="0" max="320" placeholder="Ex.: 72" /></div>
                     </label>
                     <label class="input-label">
+                      <span>Capotraste</span>
+                      <div class="input-shell"><input id="songCapoInput" type="number" min="0" max="12" placeholder="Ex.: 2" /></div>
+                    </label>
+                    <label class="input-label">
                       <span>Formato</span>
                       <div class="input-shell">
                         <select id="songTypeInput">
@@ -446,8 +451,10 @@
 
                   <label class="input-label" id="songTextWrapper">
                     <span>Letra / cifra</span>
-                    <div class="input-shell"><textarea id="songContentInput" placeholder="Cole aqui a cifra, letra ou texto da música"></textarea></div>
+                    <div class="input-shell"><textarea id="songContentInput" placeholder="Cole aqui a cifra, letra ou texto da música. Você pode copiar do Word e colar direto."></textarea></div>
                   </label>
+
+                  <div class="helper-text">Dica: para deixar a cifra visível para todos online, salve a música em texto no pack <strong>Banco online público</strong> e depois exporte o manifesto na aba Configurações.</div>
 
                   <label class="input-label hidden" id="songPdfWrapper">
                     <span>Arquivo PDF</span>
@@ -516,7 +523,10 @@
                   </label>
                   <div class="form-actions">
                     <button class="pill-button" type="button" id="savePasswordButton">Atualizar senha</button>
+                    <button class="pill-button" type="button" id="exportOnlineLibraryButton">Exportar manifesto online</button>
+                    <button class="pill-button pill-button--ghost" type="button" id="downloadOnlineGuideButton">Baixar guia GitHub</button>
                   </div>
+                  <p class="helper-text">O arquivo exportado deve substituir <strong>/content/online-library/manifest.json</strong> no GitHub para ficar público a todos.</p>
                   <div class="list-stack">
                     <div class="list-row">
                       <div class="list-row__content">

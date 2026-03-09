@@ -1,8 +1,12 @@
-# Palco Pro
+# Stage Music
 
 Aplicativo **mobile-first** em **HTML + CSS + JavaScript vanilla** para músicos, cantores e equipes que precisam organizar:
 
+**Build atual:** 2026-03-09 11:20 BRT  
+**Versão:** v0.2.0
+
 - cifras e letras em texto
+- banco online público de cifras em texto via GitHub
 - partituras / materiais em **PDF**
 - ordem do repertório / setlist
 - navegação rápida de palco
@@ -345,3 +349,33 @@ Como a descrição funcional ainda estava aberta, foram assumidas as seguintes e
 
 Este repositório deve receber apenas conteúdo autorizado pelo usuário. As músicas demo incluídas são fictícias e servem apenas para demonstrar estrutura, UX e arquitetura.
 
+
+
+## Banco online público via GitHub
+
+Esta build já deixa o fluxo pronto para o seu cenário sem custo inicial.
+
+### Como funciona
+
+- o administrador cria músicas em **texto** no pack local **Banco online público**
+- no Admin, use o botão **Exportar manifesto online**
+- o app baixa um arquivo JSON pronto
+- no GitHub, substitua o arquivo `content/online-library/manifest.json` por esse JSON
+- depois do commit, todos os usuários verão as cifras online ao recarregar o site
+
+### Recomendação importante
+
+- **texto/cifra** = melhor para a biblioteca online pública
+- **PDF** = melhor para armazenamento local do usuário
+
+Assim você mantém o projeto leve, gratuito e fácil de publicar no GitHub Pages.
+
+## Progresso do projeto
+
+- Fases totais previstas: **8**
+- Fase atual concluída nesta build: **Fase 2 + base do banco online público**
+- Progresso estimado: **22%**
+
+## Nome da build
+
+`stage-music-build-2026-03-09-1120.zip`

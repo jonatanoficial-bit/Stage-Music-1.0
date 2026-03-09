@@ -1,7 +1,7 @@
 {
-  "name": "Palco Pro",
-  "short_name": "Palco Pro",
-  "description": "App mobile-first para organizar cifras, letras, partituras PDF, repertórios e DLCs locais.",
+  "name": "Stage Music",
+  "short_name": "Stage Music",
+  "description": "App mobile-first para organizar cifras, letras, banco online em texto, partituras PDF locais, repertórios e DLCs.",
   "lang": "pt-BR",
   "start_url": "./index.html",
   "scope": "./",
