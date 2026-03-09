@@ -12,7 +12,6 @@
   <div class="app-shell admin-shell">
     <div class="aurora aurora-a"></div>
     <div class="aurora aurora-b"></div>
-
     <header class="topbar glass">
       <div class="brand-wrap">
         <div class="brand-icon">⚙</div>
@@ -21,64 +20,26 @@
           <p>Banco online público de cifras e letras</p>
         </div>
       </div>
-
       <div class="top-actions">
         <a class="btn subtle" href="../index.html">Voltar ao App</a>
       </div>
     </header>
-
     <main class="layout admin-layout">
       <section class="panel glass form-panel">
         <div class="panel-head">
-          <div>
-            <span class="eyebrow">Cadastro</span>
-            <h2>Nova música pública</h2>
-          </div>
+          <div><span class="eyebrow">Cadastro</span><h2>Nova música pública</h2></div>
           <div class="count-pill" id="adminCount">0 músicas</div>
         </div>
-
         <div class="form-grid">
-          <label>
-            <span>Título</span>
-            <input id="title" type="text" placeholder="Ex.: Oceano">
-          </label>
-
-          <label>
-            <span>Artista</span>
-            <input id="artist" type="text" placeholder="Ex.: Ministério / Banda / Cantor">
-          </label>
-
-          <label>
-            <span>Tom</span>
-            <input id="key" type="text" placeholder="Ex.: G">
-          </label>
-
-          <label>
-            <span>BPM</span>
-            <input id="bpm" type="number" placeholder="Ex.: 72">
-          </label>
-
-          <label>
-            <span>Capotraste</span>
-            <input id="capo" type="text" placeholder="Ex.: 2 ou sem capotraste">
-          </label>
-
-          <label>
-            <span>Tags</span>
-            <input id="tags" type="text" placeholder="Ex.: adoração, acústico, noite">
-          </label>
-
-          <label class="full">
-            <span>Observações</span>
-            <input id="notes" type="text" placeholder="Ex.: Intro 2x, entrada com pad, tom feminino...">
-          </label>
-
-          <label class="full">
-            <span>Cifra / Letra</span>
-            <textarea id="lyrics" rows="18" placeholder="Cole aqui a cifra ou letra vinda do Word..."></textarea>
-          </label>
+          <label><span>Título</span><input id="title" type="text" placeholder="Ex.: Oceano"></label>
+          <label><span>Artista</span><input id="artist" type="text" placeholder="Ex.: Ministério / Banda / Cantor"></label>
+          <label><span>Tom</span><input id="key" type="text" placeholder="Ex.: G"></label>
+          <label><span>BPM</span><input id="bpm" type="number" placeholder="Ex.: 72"></label>
+          <label><span>Capotraste</span><input id="capo" type="text" placeholder="Ex.: 2 ou sem capotraste"></label>
+          <label><span>Tags</span><input id="tags" type="text" placeholder="Ex.: adoração, acústico, noite"></label>
+          <label class="full"><span>Observações</span><input id="notes" type="text" placeholder="Ex.: Intro 2x, entrada com pad, tom feminino..."></label>
+          <label class="full"><span>Cifra / Letra</span><textarea id="lyrics" rows="18" placeholder="Cole aqui a cifra ou letra vinda do Word..."></textarea></label>
         </div>
-
         <div class="admin-actions">
           <button class="btn primary" id="addMusic" type="button">Adicionar à biblioteca</button>
           <button class="btn secondary" id="clearForm" type="button">Limpar</button>
@@ -86,28 +47,16 @@
           <button class="btn secondary" id="exportJson" type="button">Exportar manifesto online</button>
           <input id="jsonFileInput" type="file" accept=".json,application/json" hidden>
         </div>
-
         <div class="note-box">
-          <strong>Fluxo recomendado:</strong>
-          cadastre as músicas aqui, exporte o <code>manifest.json</code> e substitua
-          o arquivo <code>content/online-library/manifest.json</code> no seu GitHub Pages.
-          Assim as cifras ficam visíveis para todos os usuários do site.
+          <strong>Fluxo recomendado:</strong> cadastre as músicas aqui, exporte o <code>manifest.json</code> e substitua o arquivo <code>content/online-library/manifest.json</code> no seu GitHub Pages.
         </div>
       </section>
-
       <section class="panel glass admin-list-panel">
-        <div class="panel-head">
-          <div>
-            <span class="eyebrow">Prévia</span>
-            <h2>Biblioteca pública pronta para GitHub</h2>
-          </div>
-        </div>
-
+        <div class="panel-head"><div><span class="eyebrow">Prévia</span><h2>Biblioteca pública pronta para GitHub</h2></div></div>
         <div class="song-list admin-list" id="adminList"></div>
       </section>
     </main>
   </div>
-
   <script src="../js/store.js"></script>
   <script src="../js/admin.js"></script>
 </body>

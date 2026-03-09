@@ -1,11 +1,10 @@
 # Stage Music — Live Music Performance
 
-**Build:** 2026-03-09 12:30  
-**Versão:** v0.4.1  
-**Status:** rebuild premium corrigido
+**Build:** 2026-03-09 13:10  
+**Versão:** v0.5.0  
+**Status:** fase 5 entregue
 
 ## O que esta build entrega
-
 - layout mobile-first premium
 - biblioteca musical com busca e filtros
 - visualização de cifra/letra com destaque visual
@@ -14,10 +13,12 @@
 - zoom da cifra
 - admin para colar cifras do Word
 - exportação de `manifest.json`
-- fluxo pronto para GitHub Pages
+- setlist profissional
+- próxima e anterior
+- salto rápido por número da faixa
+- salvar repertório localmente
 
 ## Como publicar o banco online público
-
 1. Abra `admin/admin.html`
 2. Cadastre ou importe as músicas
 3. Clique em **Exportar manifesto online**
@@ -26,21 +27,9 @@
 6. Faça commit
 7. Aguarde a atualização do GitHub Pages
 
-Depois disso, as cifras públicas ficam visíveis para todos os usuários do site.
-
-## Estrutura da música
-
-Cada música pode conter:
-- título
-- artista
-- tom
-- BPM
-- capotraste
-- tags
-- observações
-- cifra ou letra em texto
-
-## Observação importante
-
-Nesta fase, o banco online público usa **texto** como formato principal.
-PDF continua sendo algo recomendado para biblioteca local do usuário em fases futuras.
+## Como usar o repertório
+1. Abra uma música da biblioteca
+2. Clique em **Adicionar atual**
+3. Monte a ordem do repertório
+4. Use **Próxima** e **Anterior** durante a apresentação
+5. Use **Salvar** para guardar o repertório localmente

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-03-09T12:30:00-03:00",
+  "updatedAt": "2026-03-09T13:10:00-03:00",
   "musics": [
     {
       "id": "oceano-demo",
@@ -31,6 +31,21 @@
       ],
       "notes": "Refrão com levada aberta",
       "lyrics": "[Verso]\nA    E/G#   F#m   D\nHoje eu pego a estrada outra vez\n\n[Refrão]\nA         E/G#\nLuzes da cidade\nF#m       D\nSom na madrugada"
+    },
+    {
+      "id": "esperanca-demo",
+      "title": "Esperança (Demo)",
+      "artist": "Stage Music Sample",
+      "key": "D",
+      "bpm": 84,
+      "capo": "Sem capotraste",
+      "tags": [
+        "igreja",
+        "culto",
+        "piano"
+      ],
+      "notes": "Final sobe 1 tom",
+      "lyrics": "[Verso]\nD   A/C#   Bm   G\nMesmo na noite eu vou cantar\n\n[Ponte]\nEm   G   D/F#   A\nTua graça vai me sustentar"
     }
   ]
 }

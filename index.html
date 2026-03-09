@@ -14,7 +14,6 @@
   <div class="app-shell">
     <div class="aurora aurora-a"></div>
     <div class="aurora aurora-b"></div>
-
     <header class="topbar glass">
       <div class="brand-wrap">
         <div class="brand-icon">♪</div>
@@ -23,13 +22,11 @@
           <p>Live Music Performance</p>
         </div>
       </div>
-
       <div class="top-actions">
         <button class="btn subtle" id="toggleStageMode" type="button">Modo Palco</button>
         <a class="btn subtle" href="admin/admin.html">Admin</a>
       </div>
     </header>
-
     <main class="layout">
       <aside class="panel glass library-panel">
         <div class="panel-head">
@@ -39,7 +36,6 @@
           </div>
           <div class="count-pill" id="libraryCount">0 faixas</div>
         </div>
-
         <div class="toolbar">
           <div class="search-wrap">
             <span class="search-icon">⌕</span>
@@ -47,13 +43,11 @@
           </div>
           <button class="btn secondary" id="refreshLibrary" type="button">Atualizar</button>
         </div>
-
         <div class="filters">
           <button class="chip active" data-filter="all" type="button">Todas</button>
           <button class="chip" data-filter="online" type="button">Online</button>
           <button class="chip" data-filter="local" type="button">Locais</button>
         </div>
-
         <div class="song-list" id="musicList"></div>
       </aside>
 
@@ -64,57 +58,61 @@
             <h2 id="viewerTitle">Selecione uma música</h2>
             <p id="viewerSubtitle">Escolha uma faixa da biblioteca para abrir a cifra ou letra.</p>
           </div>
-
           <div class="viewer-actions">
-            <button class="icon-btn" id="decreaseFont" type="button" title="Diminuir">A−</button>
-            <button class="icon-btn" id="increaseFont" type="button" title="Aumentar">A+</button>
-            <button class="icon-btn" id="copyText" type="button" title="Copiar">Copiar</button>
+            <button class="icon-btn" id="decreaseFont" type="button">A−</button>
+            <button class="icon-btn" id="increaseFont" type="button">A+</button>
+            <button class="icon-btn" id="copyText" type="button">Copiar</button>
           </div>
         </div>
 
-        <div class="song-meta-grid" id="songMeta">
-          <article class="meta-card">
-            <span>Tom</span>
-            <strong id="metaKey">—</strong>
-          </article>
-          <article class="meta-card">
-            <span>BPM</span>
-            <strong id="metaBpm">—</strong>
-          </article>
-          <article class="meta-card">
-            <span>Capotraste</span>
-            <strong id="metaCapo">—</strong>
-          </article>
-          <article class="meta-card">
-            <span>Origem</span>
-            <strong id="metaSource">—</strong>
-          </article>
+        <div class="song-meta-grid">
+          <article class="meta-card"><span>Tom</span><strong id="metaKey">—</strong></article>
+          <article class="meta-card"><span>BPM</span><strong id="metaBpm">—</strong></article>
+          <article class="meta-card"><span>Capotraste</span><strong id="metaCapo">—</strong></article>
+          <article class="meta-card"><span>Origem</span><strong id="metaSource">—</strong></article>
         </div>
+
+        <section class="setlist-card">
+          <div class="setlist-head">
+            <div>
+              <span class="eyebrow">Repertório</span>
+              <h3 id="setlistTitle">Setlist atual</h3>
+            </div>
+            <div class="setlist-actions">
+              <button class="btn secondary small" id="addToSetlist" type="button">Adicionar atual</button>
+              <button class="btn secondary small" id="saveSetlist" type="button">Salvar</button>
+              <button class="btn secondary small" id="clearSetlist" type="button">Limpar</button>
+            </div>
+          </div>
+          <div class="setlist-tools">
+            <div class="search-wrap jump-wrap">
+              <span class="search-icon">#</span>
+              <input type="number" id="jumpInput" min="1" placeholder="Ir para faixa">
+            </div>
+            <button class="btn secondary small" id="jumpButton" type="button">Abrir</button>
+          </div>
+          <div class="setlist-summary">
+            <div class="count-pill" id="setlistCount">0 músicas</div>
+            <div class="next-card" id="nextSongCard">Nenhuma próxima música</div>
+          </div>
+          <div class="setlist-list" id="setlistList"></div>
+        </section>
 
         <div class="viewer-card">
           <div class="viewer-toolbar">
+            <button class="btn secondary small" id="prevSong" type="button">Anterior</button>
+            <button class="btn primary small" id="nextSong" type="button">Próxima</button>
             <button class="btn secondary small" id="startScroll" type="button">Auto Scroll</button>
-            <label class="range-wrap">
-              <span>Velocidade</span>
-              <input id="scrollSpeed" type="range" min="1" max="8" value="3">
-            </label>
-            <label class="range-wrap">
-              <span>Zoom</span>
-              <input id="fontRange" type="range" min="16" max="28" value="19">
-            </label>
+            <label class="range-wrap"><span>Velocidade</span><input id="scrollSpeed" type="range" min="1" max="8" value="3"></label>
+            <label class="range-wrap"><span>Zoom</span><input id="fontRange" type="range" min="16" max="28" value="19"></label>
           </div>
-
           <article class="lyrics-view" id="musicContent">
-            <div class="empty-state">
-              <div class="empty-icon">♫</div>
-              <p>Biblioteca pronta. Abra uma música para ver a cifra em modo premium.</p>
-            </div>
+            <div class="empty-state"><div class="empty-icon">♫</div><p>Biblioteca pronta. Abra uma música para ver a cifra em modo premium.</p></div>
           </article>
         </div>
       </section>
     </main>
   </div>
-
   <script src="js/store.js"></script>
   <script src="js/app.js"></script>
 </body>

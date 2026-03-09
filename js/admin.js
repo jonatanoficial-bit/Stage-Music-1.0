@@ -1,95 +1,12 @@
-
-const adminState = { musics: readDraftLibrary() };
-
-const fields = {
-  title: document.getElementById('title'),
-  artist: document.getElementById('artist'),
-  key: document.getElementById('key'),
-  bpm: document.getElementById('bpm'),
-  capo: document.getElementById('capo'),
-  tags: document.getElementById('tags'),
-  notes: document.getElementById('notes'),
-  lyrics: document.getElementById('lyrics'),
-  adminList: document.getElementById('adminList'),
-  adminCount: document.getElementById('adminCount'),
-  jsonFileInput: document.getElementById('jsonFileInput')
-};
-
-function updateCount() {
-  fields.adminCount.textContent = `${adminState.musics.length} músicas`;
-}
-function resetForm() {
-  [fields.title, fields.artist, fields.key, fields.bpm, fields.capo, fields.tags, fields.notes, fields.lyrics].forEach(field => field.value = '');
-}
-function renderAdminList() {
-  updateCount();
-  fields.adminList.innerHTML = adminState.musics.map((song, index) => `
-    <article class="song-item">
-      <h3>${song.title || 'Sem título'}</h3>
-      <p>${song.artist || 'Artista não informado'} • Tom ${song.key || '—'} • ${song.bpm || '—'} BPM</p>
-      <div class="song-tags">
-        ${(Array.isArray(song.tags) ? song.tags : String(song.tags || '').split(',').map(v => v.trim()).filter(Boolean)).slice(0,5).map(tag => `<span class="tag">${tag}</span>`).join('')}
-        <button class="tag delete-btn" data-index="${index}" type="button">Excluir</button>
-      </div>
-    </article>
-  `).join('') || `
-    <div class="empty-state">
-      <div class="empty-icon">♫</div>
-      <p>Adicione músicas para montar seu manifesto público.</p>
-    </div>
-  `;
-
-  fields.adminList.querySelectorAll('.delete-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      adminState.musics.splice(Number(btn.dataset.index), 1);
-      writeDraftLibrary(adminState.musics);
-      renderAdminList();
-    });
-  });
-}
-function getFormSong() {
-  return {
-    id: (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : `song-${Date.now()}`,
-    title: fields.title.value.trim(),
-    artist: fields.artist.value.trim(),
-    key: fields.key.value.trim(),
-    bpm: fields.bpm.value.trim(),
-    capo: fields.capo.value.trim(),
-    tags: fields.tags.value.split(',').map(v => v.trim()).filter(Boolean),
-    notes: fields.notes.value.trim(),
-    lyrics: fields.lyrics.value.trim()
-  };
-}
-document.getElementById('addMusic').addEventListener('click', () => {
-  const song = getFormSong();
-  if (!song.title || !song.lyrics) {
-    alert('Preencha pelo menos título e cifra/letra.');
-    return;
-  }
-  adminState.musics.unshift(song);
-  writeDraftLibrary(adminState.musics);
-  renderAdminList();
-  resetForm();
-});
-document.getElementById('clearForm').addEventListener('click', resetForm);
-document.getElementById('exportJson').addEventListener('click', () => {
-  const payload = { version: '1.0.0', updatedAt: new Date().toISOString(), musics: adminState.musics };
-  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'manifest.json';
-  a.click();
-  URL.revokeObjectURL(url);
-});
-document.getElementById('importJson').addEventListener('click', () => fields.jsonFileInput.click());
-fields.jsonFileInput.addEventListener('change', async (event) => {
-  const file = event.target.files[0];
-  if (!file) return;
-  const text = await file.text();
-  const payload = JSON.parse(text);
-  adminState.musics = Array.isArray(payload.musics) ? payload.musics : [];
-  writeDraftLibrary(adminState.musics);
-  renderAdminList();
-});
+const adminState={musics:readDraftLibrary()};
+const fields={title:document.getElementById('title'),artist:document.getElementById('artist'),key:document.getElementById('key'),bpm:document.getElementById('bpm'),capo:document.getElementById('capo'),tags:document.getElementById('tags'),notes:document.getElementById('notes'),lyrics:document.getElementById('lyrics'),adminList:document.getElementById('adminList'),adminCount:document.getElementById('adminCount'),jsonFileInput:document.getElementById('jsonFileInput')};
+function updateCount(){fields.adminCount.textContent=`${adminState.musics.length} músicas`;}
+function resetForm(){[fields.title,fields.artist,fields.key,fields.bpm,fields.capo,fields.tags,fields.notes,fields.lyrics].forEach(f=>f.value='');}
+function renderAdminList(){updateCount(); fields.adminList.innerHTML=adminState.musics.map((song,index)=>`<article class="song-item"><h3>${song.title||'Sem título'}</h3><p>${song.artist||'Artista não informado'} • Tom ${song.key||'—'} • ${song.bpm||'—'} BPM</p><div class="song-tags">${(Array.isArray(song.tags)?song.tags:String(song.tags||'').split(',').map(v=>v.trim()).filter(Boolean)).slice(0,5).map(tag=>`<span class="tag">${tag}</span>`).join('')}<button class="tag delete-btn" data-index="${index}" type="button">Excluir</button></div></article>`).join('')||`<div class="empty-state"><div class="empty-icon">♫</div><p>Adicione músicas para montar seu manifesto público.</p></div>`; fields.adminList.querySelectorAll('.delete-btn').forEach(btn=>btn.addEventListener('click',()=>{adminState.musics.splice(Number(btn.dataset.index),1); writeDraftLibrary(adminState.musics); renderAdminList();}));}
+function getFormSong(){return{id:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():`song-${Date.now()}`,title:fields.title.value.trim(),artist:fields.artist.value.trim(),key:fields.key.value.trim(),bpm:fields.bpm.value.trim(),capo:fields.capo.value.trim(),tags:fields.tags.value.split(',').map(v=>v.trim()).filter(Boolean),notes:fields.notes.value.trim(),lyrics:fields.lyrics.value.trim()};}
+document.getElementById('addMusic').addEventListener('click',()=>{const song=getFormSong(); if(!song.title||!song.lyrics){alert('Preencha pelo menos título e cifra/letra.'); return;} adminState.musics.unshift(song); writeDraftLibrary(adminState.musics); renderAdminList(); resetForm();});
+document.getElementById('clearForm').addEventListener('click',resetForm);
+document.getElementById('exportJson').addEventListener('click',()=>{const payload={version:'1.0.0',updatedAt:new Date().toISOString(),musics:adminState.musics}; const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='manifest.json'; a.click(); URL.revokeObjectURL(url);});
+document.getElementById('importJson').addEventListener('click',()=>fields.jsonFileInput.click());
+fields.jsonFileInput.addEventListener('change',async(event)=>{const file=event.target.files[0]; if(!file)return; const text=await file.text(); const payload=JSON.parse(text); adminState.musics=Array.isArray(payload.musics)?payload.musics:[]; writeDraftLibrary(adminState.musics); renderAdminList();});
 renderAdminList();
