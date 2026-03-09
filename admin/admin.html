@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Stage Music Admin</title>
+</head>
+<body>
+
+<h1>Admin - Banco de Cifras</h1>
+
+<p>Adicione nova música:</p>
+
+<input id="title" placeholder="Nome da música"><br>
+<input id="artist" placeholder="Artista"><br>
+<textarea id="lyrics" placeholder="Cole aqui a cifra ou letra"></textarea><br>
+
+<button onclick="addMusic()">Adicionar</button>
+<button onclick="exportJSON()">Exportar JSON</button>
+
+<script>
+let musics=[]
+
+function addMusic(){
+musics.push({
+title:document.getElementById('title').value,
+artist:document.getElementById('artist').value,
+lyrics:document.getElementById('lyrics').value
+})
+alert("Música adicionada")
+}
+
+function exportJSON(){
+const blob = new Blob([JSON.stringify({musics:musics},null,2)],{type:"application/json"})
+const a=document.createElement("a")
+a.href=URL.createObjectURL(blob)
+a.download="manifest.json"
+a.click()
+}
+</script>
+
+</body>
+</html>

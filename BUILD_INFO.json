@@ -1,9 +1,6 @@
 {
-  "appName": "Stage Music - Live Music Performance",
-  "version": "0.2.0",
-  "buildLabel": "2026-03-09 11:20 BRT",
-  "buildISO": "2026-03-09T14:20:00Z",
-  "phase": "Fase 2 - Biblioteca musical + banco online público por manifesto JSON",
-  "progressPercent": 22,
-  "totalPhases": 8
+  "app": "Stage Music \u2014 Live Music Performance",
+  "build": "2026-03-09 12:30",
+  "version": "v0.4.1",
+  "progress": "48%"
 }

@@ -1,0 +1,25 @@
+
+body{
+font-family:Arial, sans-serif;
+background:#0f0f12;
+color:white;
+margin:0;
+padding:20px;
+}
+
+header{
+text-align:center;
+margin-bottom:20px;
+}
+
+input{
+padding:10px;
+width:100%;
+margin-bottom:10px;
+}
+
+#musicList li{
+cursor:pointer;
+padding:8px;
+border-bottom:1px solid #333;
+}

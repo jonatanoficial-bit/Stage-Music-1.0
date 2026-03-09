@@ -1,25 +1,10 @@
 {
-  "schema": "stage-music-online-library/v1",
-  "id": "online-library",
-  "name": "Biblioteca Online Stage Music",
-  "version": "0.2.0",
-  "author": "Stage Music Admin",
-  "description": "Biblioteca pública em texto para todos os usuários do site. Substitua este arquivo pelo manifesto exportado no Admin.",
-  "themeAccent": "#37c8ab",
-  "songs": [
+  "version": "1.0",
+  "musics": [
     {
-      "id": "online-demo-001",
-      "title": "Exemplo de cifra pública",
-      "artist": "Stage Music",
-      "key": "G",
-      "bpm": 76,
-      "capo": 0,
-      "type": "text",
-      "format": "cifra",
-      "tags": ["demo", "publico"],
-      "notes": "Exemplo de música visível para todos os usuários online.",
-      "content": "[Intro]\nG D Em C\n\n[Verso]\nG            D\nCole sua cifra aqui\nEm           C\nE publique no GitHub"
+      "title": "Exemplo",
+      "artist": "Demo",
+      "lyrics": "[Verso]\\nC G D\\nLetra da m\u00fasica exemplo"
     }
-  ],
-  "buildLabel": "2026-03-09T14:20:00Z"
+  ]
 }
