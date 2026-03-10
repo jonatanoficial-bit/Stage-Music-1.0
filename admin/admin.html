@@ -1,1 +1,75 @@
-<!DOCTYPE html><html lang='pt-BR'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>Stage Music Admin</title><link rel='icon' href='../assets/icons/favicon.svg' type='image/svg+xml'><link rel='stylesheet' href='../css/style.css'></head><body><div class='app-bg'></div><div class='app-overlay'></div><div class='app-shell'><header class='hero glass'><div class='hero-left'><div class='logo-wrap'><img src='../assets/branding/logo-stage-music.png' alt='Stage Music' class='brand-logo' onerror="this.style.display='none';document.getElementById('brandFallback').style.display='grid';"><div class='brand-fallback' id='brandFallback' style='display:none;'>⚙</div></div><div class='hero-copy'><span class='eyebrow'>Painel</span><h1>Stage Music Admin</h1><p>Banco online público de cifras e letras</p></div></div><div class='hero-actions'><a class='btn btn-primary' href='../index.html'>Voltar ao App</a></div></header><main class='main-grid admin-layout'><section class='panel glass'><div class='section-head'><div><span class='eyebrow'>Cadastro</span><h2>Nova música pública</h2></div><div class='counter-pill' id='adminCount'>0 músicas</div></div><div class='form-grid'><label><span>Título</span><input id='title' type='text'></label><label><span>Artista</span><input id='artist' type='text'></label><label><span>Tom</span><input id='key' type='text'></label><label><span>BPM</span><input id='bpm' type='number'></label><label><span>Capotraste</span><input id='capo' type='text'></label><label><span>Tags</span><input id='tags' type='text'></label><label class='full'><span>Observações</span><input id='notes' type='text'></label><label class='full'><span>Cifra / Letra</span><textarea id='lyrics' rows='16'></textarea></label></div><div class='button-row'><button class='btn btn-primary' id='addMusic'>Adicionar</button><button class='btn btn-soft' id='clearForm'>Limpar</button><button class='btn btn-soft' id='importJson'>Importar JSON</button><button class='btn btn-soft' id='exportJson'>Exportar manifesto online</button><input id='jsonFileInput' type='file' accept='.json,application/json' hidden></div></section><section class='panel glass'><div class='section-head'><div><span class='eyebrow'>Prévia</span><h2>Biblioteca pública</h2></div></div><div class='library-list' id='adminList'></div></section></main></div><script src='../js/store.js'></script><script src='../js/admin.js'></script></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stage Music Admin</title>
+  <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="app-bg"></div>
+  <div class="app-overlay"></div>
+
+  <div class="app-shell">
+    <header class="hero glass">
+      <div class="hero-left">
+        <div class="logo-wrap">
+          <img src="../assets/branding/logo-stage-music.png" alt="Stage Music" class="brand-logo"
+               onerror="this.style.display='none';document.getElementById('brandFallback').style.display='grid';">
+          <div class="brand-fallback" id="brandFallback" style="display:none;">⚙</div>
+        </div>
+        <div class="hero-copy">
+          <span class="eyebrow">Painel</span>
+          <h1>Stage Music Admin</h1>
+          <p>Banco online público de cifras e letras</p>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="../index.html">Voltar ao App</a>
+      </div>
+    </header>
+
+    <main class="main-grid admin-layout">
+      <section class="panel glass">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Cadastro</span>
+            <h2>Nova música pública</h2>
+          </div>
+          <div class="counter-pill" id="adminCount">0 músicas</div>
+        </div>
+
+        <div class="form-grid">
+          <label><span>Título</span><input id="title" type="text"></label>
+          <label><span>Artista</span><input id="artist" type="text"></label>
+          <label><span>Tom</span><input id="key" type="text"></label>
+          <label><span>BPM</span><input id="bpm" type="number"></label>
+          <label><span>Capotraste</span><input id="capo" type="text"></label>
+          <label><span>Tags</span><input id="tags" type="text"></label>
+          <label class="full"><span>Observações</span><input id="notes" type="text"></label>
+          <label class="full"><span>Cifra / Letra</span><textarea id="lyrics" rows="16"></textarea></label>
+        </div>
+
+        <div class="button-row">
+          <button class="btn btn-primary" id="addMusic" type="button">Adicionar</button>
+          <button class="btn btn-soft" id="clearForm" type="button">Limpar</button>
+          <button class="btn btn-soft" id="importJson" type="button">Importar JSON</button>
+          <button class="btn btn-soft" id="exportJson" type="button">Exportar manifesto online</button>
+          <input id="jsonFileInput" type="file" accept=".json,application/json" hidden>
+        </div>
+      </section>
+
+      <section class="panel glass">
+        <div class="section-head">
+          <div><span class="eyebrow">Prévia</span><h2>Biblioteca pública</h2></div>
+        </div>
+        <div class="library-list" id="adminList"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="../js/store.js"></script>
+  <script src="../js/admin.js"></script>
+</body>
+</html>

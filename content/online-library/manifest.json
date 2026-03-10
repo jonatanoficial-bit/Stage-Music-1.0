@@ -1,6 +1,6 @@
 {
-  "version": "1.6.0",
-  "updatedAt": "2026-03-10T14:15:00-03:00",
+  "version": "1.6.1",
+  "updatedAt": "2026-03-10T15:32:00-03:00",
   "musics": [
     {
       "id": "exemplo-worship",
@@ -14,7 +14,7 @@
         "demo"
       ],
       "notes": "Entrada suave",
-      "lyrics": "[Intro]\nG  D/F#  Em7  C\n\n[Verso]\nG           D\nLetra exemplo\nEm7         C\nSegue a canção"
+      "lyrics": "[Intro]\\nG  D/F#  Em7  C\\n\\n[Verso]\\nG           D\\nLetra exemplo\\nEm7         C\\nSegue a canção"
     },
     {
       "id": "exemplo-noite",
@@ -28,7 +28,7 @@
         "demo"
       ],
       "notes": "Levado aberto",
-      "lyrics": "[Verso]\nA   E/G#   F#m   D\nLetra de barzinho\n\n[Refrão]\nA   E   F#m   D"
+      "lyrics": "[Verso]\\nA   E/G#   F#m   D\\nLetra de barzinho\\n\\n[Refrão]\\nA   E   F#m   D"
     },
     {
       "id": "exemplo-igreja",
@@ -42,7 +42,7 @@
         "culto"
       ],
       "notes": "Final em crescendo",
-      "lyrics": "[Verso]\nD   A/C#   Bm   G\nMesmo na noite vou cantar\n\n[Ponte]\nEm   G   D/F#   A"
+      "lyrics": "[Verso]\\nD   A/C#   Bm   G\\nMesmo na noite vou cantar\\n\\n[Ponte]\\nEm   G   D/F#   A"
     },
     {
       "id": "exemplo-rock",
@@ -56,7 +56,7 @@
         "noite"
       ],
       "notes": "Drive forte no refrão",
-      "lyrics": "[Verso]\nE   B   C#m   A\nSigo na estrada sem parar\n\n[Refrão]\nE   B   A   E"
+      "lyrics": "[Verso]\\nE   B   C#m   A\\nSigo na estrada sem parar\\n\\n[Refrão]\\nE   B   A   E"
     }
   ]
 }

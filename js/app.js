@@ -1,1 +1,509 @@
-let library=[],currentSong=null,setlist=[],transpose=0,scrollTimer=null,stageMirrored=false,deferredPrompt=null,filter='all';const NOTES=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'],FLAT={Db:'C#',Eb:'D#',Gb:'F#',Ab:'G#',Bb:'A#'};const $=id=>document.getElementById(id);function norm(s,src){return{id:s.id||`${src}-${s.title}`,title:s.title||'Sem título',artist:s.artist||'Artista',key:s.key||'—',bpm:s.bpm||'—',capo:s.capo||'—',notes:s.notes||'',tags:Array.isArray(s.tags)?s.tags:String(s.tags||'').split(',').map(v=>v.trim()).filter(Boolean),lyrics:s.lyrics||'',pdf:s.pdf||'',source:src}}function sharp(n){return FLAT[n]||n}function tRoot(n,d){const i=NOTES.indexOf(sharp(n));return i<0?n:NOTES[(i+d+120)%12]}function tChord(ch,d){const p=ch.split('/');const l=p[0].replace(/^([A-G](?:#|b)?)/,(m)=>tRoot(m,d));return p[1]?l+'/'+tRoot(p[1],d):l}function tText(t,d){return !d?t:t.replace(/\b([A-G](?:#|b)?(?:m|maj7|7|sus2|sus4|dim|add9|9|11|13)?(?:\/[A-G](?:#|b)?)?)\b/g,m=>tChord(m,d))}function esc(v){return String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}function hi(t){return String(t).split('\n').map(l=>{const s=esc(l);if(/^[\[(#].+[\])]?$/.test(l.trim()))return `<span class="section">${s}</span>`;return s.replace(/\b([A-G](#|b)?(m|maj7|7|sus2|sus4|dim|add9|9|11|13)?)(\/([A-G](#|b)?))?\b/g,'<span class="chord">$1</span>')}).join('\n')}function favs(){return STORE.getFavorites()}function favIds(){return new Set(favs().map(x=>x.id))}function isFav(id){return favIds().has(id)}function renderLibrary(){const input=$('searchInput');const q=input?input.value.trim().toLowerCase():'';const list=library.filter(s=>{const mf=filter==='all'||s.source.toLowerCase()===filter||(filter==='favorites'&&isFav(s.id));const bag=[s.title,s.artist,s.key,s.notes,(s.tags||[]).join(' ')].join(' ').toLowerCase();return mf&&bag.includes(q)});if($('libraryCount'))$('libraryCount').innerText=`${list.length} faixas`;const box=$('libraryList');if(!box)return;box.innerHTML=list.map(s=>`<article class="song-item ${currentSong&&currentSong.id===s.id?'active':''}" data-id="${s.id}"><h3>${s.title}</h3><p>${s.artist} • Tom ${s.key} • ${s.source}</p><div class="song-tags">${isFav(s.id)?'<span class="tag">favorita</span>':''}${(s.tags||[]).slice(0,4).map(t=>`<span class="tag">${t}</span>`).join('')}</div></article>`).join('')||'<div class="empty-state"><div class="empty-icon">⊘</div><p>Nenhuma música encontrada.</p></div>';box.querySelectorAll('.song-item').forEach(el=>el.onclick=()=>openSong(el.dataset.id))}function renderSaved(){const sel=$('savedSetlistsSelect');if(!sel)return;const all=STORE.getSetlists();sel.innerHTML='<option value="">Setlists salvos</option>'+all.map(s=>`<option value="${s.id}">${s.name}</option>`).join('')}function drawSetlist(){const box=$('setlistList');$('setlistCount').innerText=`${setlist.length} músicas`;const idx=setlist.findIndex(s=>currentSong&&s.id===currentSong.id);$('nextSongCard').innerText=idx>=0&&setlist[idx+1]?`Próxima: ${setlist[idx+1].title} — ${setlist[idx+1].artist}`:'Nenhuma próxima música';box.innerHTML=setlist.map((s,i)=>`<article class="setlist-item ${currentSong&&currentSong.id===s.id?'active':''}" data-id="${s.id}"><h4>${i+1}. ${s.title}</h4><p>${s.artist} • Tom ${s.key}</p><div class="setlist-inline"><button class="mini-btn up" data-i="${i}">↑</button><button class="mini-btn down" data-i="${i}">↓</button><button class="mini-btn remove" data-i="${i}">Remover</button></div></article>`).join('')||'<div class="empty-state"><div class="empty-icon">♪</div><p>Monte seu repertório ao vivo.</p></div>';box.querySelectorAll('.setlist-item').forEach(el=>el.onclick=()=>openSong(el.dataset.id));box.querySelectorAll('.up').forEach(b=>b.onclick=e=>{e.stopPropagation();const i=+b.dataset.i;if(i>0)[setlist[i-1],setlist[i]]=[setlist[i],setlist[i-1]];drawSetlist()});box.querySelectorAll('.down').forEach(b=>b.onclick=e=>{e.stopPropagation();const i=+b.dataset.i;if(i<setlist.length-1)[setlist[i+1],setlist[i]]=[setlist[i],setlist[i+1]];drawSetlist()});box.querySelectorAll('.remove').forEach(b=>b.onclick=e=>{e.stopPropagation();setlist.splice(+b.dataset.i,1);drawSetlist()});renderSaved()}function drawSong(){if(!currentSong)return;$('viewerTitle').innerText=currentSong.title;$('viewerSubtitle').innerText=`${currentSong.artist}${currentSong.notes?' • '+currentSong.notes:''}`;$('metaBpm').innerText=currentSong.bpm||'—';$('metaCapo').innerText=currentSong.capo||'—';$('metaSource').innerText=currentSong.source||'—';$('toggleFavorite').innerText=isFav(currentSong.id)?'★':'☆';const viewer=$('viewerContent');viewer.classList.toggle('mirrored',stageMirrored);if(currentSong.pdf){$('metaKey').innerText='PDF';viewer.innerHTML=`<iframe src="${currentSong.pdf}" style="width:100%;height:72vh;border:none;border-radius:18px;background:#fff"></iframe>`}else{$('metaKey').innerText=currentSong.key&&currentSong.key!=='—'?tRoot(currentSong.key,transpose):currentSong.key||'—';viewer.innerHTML=hi(tText(currentSong.lyrics||'',transpose))}}function openSong(id){currentSong=library.find(s=>s.id===id)||setlist.find(s=>s.id===id);transpose=0;drawSong();renderLibrary();drawSetlist();window.scrollTo({top:0,behavior:'smooth'})}async function loadLibrary(){try{const r=await fetch('content/online-library/manifest.json',{cache:'no-store'});if(!r.ok)throw new Error('manifest.json não encontrado');const j=await r.json();library=(j.musics||[]).map(s=>norm(s,'Online'));STORE.getLocalPDFs().forEach(p=>library.push(norm({title:p.title,artist:'PDF Local',pdf:p.dataUrl,tags:['pdf','local']},'Local')));renderLibrary();drawSetlist();if(library.length&&!currentSong)openSong(library[0].id)}catch(err){$('libraryCount').innerText='erro';$('libraryList').innerHTML=`<div class="empty-state"><div class="empty-icon">!</div><p>Não foi possível carregar a biblioteca.</p><p style="font-size:.9rem">${esc(err.message)}</p></div>`}}function updateProgress(){const max=Math.max(1,document.documentElement.scrollHeight-window.innerHeight);$('scrollProgress').style.width=`${Math.min(100,Math.max(0,(window.scrollY/max)*100))}%`}function toggleScroll(){if(scrollTimer){clearInterval(scrollTimer);scrollTimer=null;$('startScroll').innerText='Auto Scroll';return}scrollTimer=setInterval(()=>{window.scrollBy({top:+$('scrollSpeed').value,left:0,behavior:'smooth'});updateProgress()},90);$('startScroll').innerText='Parar Scroll'}function goRelative(d){if(!setlist.length)return;const i=setlist.findIndex(s=>currentSong&&s.id===currentSong.id);const next=i===-1?0:Math.min(Math.max(i+d,0),setlist.length-1);openSong(setlist[next].id)}if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}))}window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;$('installApp').style.display='inline-flex'});$('installApp').onclick=()=>deferredPrompt&&deferredPrompt.prompt();$('refreshLibrary').onclick=loadLibrary;$('searchInput').oninput=renderLibrary;document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');filter=b.dataset.filter;renderLibrary()});$('pdfInput').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{const all=STORE.getLocalPDFs();all.unshift({title:f.name.replace(/\.pdf$/i,''),dataUrl:r.result});STORE.saveLocalPDFs(all);await loadLibrary()};r.readAsDataURL(f)};$('toggleStageMode').onclick=()=>document.body.classList.toggle('stage-mode');$('fontPlus').onclick=()=>{const z=$('fontRange');z.value=Math.min(44,+z.value+1);document.documentElement.style.setProperty('--size',z.value+'px')};$('fontMinus').onclick=()=>{const z=$('fontRange');z.value=Math.max(14,+z.value-1);document.documentElement.style.setProperty('--size',z.value+'px')};$('fontRange').oninput=e=>document.documentElement.style.setProperty('--size',e.target.value+'px');$('scrollBtn')?.onclick=toggleScroll;$('startScroll').onclick=toggleScroll;$('addToSetlist').onclick=()=>{if(currentSong){setlist.push({...currentSong});drawSetlist()}};$('saveSetlist').onclick=()=>{const name=prompt('Nome do repertório:',`Setlist ${new Date().toLocaleDateString('pt-BR')}`);if(!name)return;const all=STORE.getSetlists();all.unshift({id:`set-${Date.now()}`,name,songs:setlist});STORE.saveSetlists(all);renderSaved();$('setlistTitle').innerText=`Setlist atual • ${name}`};$('clearSetlist').onclick=()=>{setlist=[];drawSetlist()};$('loadSavedSetlist').onclick=()=>{const id=$('savedSetlistsSelect').value;const it=STORE.getSetlists().find(s=>s.id===id);if(!it)return;setlist=(it.songs||[]).map(s=>({...s}));$('setlistTitle').innerText=`Setlist atual • ${it.name}`;drawSetlist();if(setlist.length)openSong(setlist[0].id)};$('deleteSavedSetlist').onclick=()=>{const id=$('savedSetlistsSelect').value;STORE.saveSetlists(STORE.getSetlists().filter(s=>s.id!==id));renderSaved()};$('jumpButton').onclick=()=>{const i=+$('jumpInput').value-1;if(i>=0&&i<setlist.length)openSong(setlist[i].id)};$('prevSong').onclick=()=>goRelative(-1);$('nextSong').onclick=()=>goRelative(1);$('transposeUp').onclick=()=>{transpose++;drawSong()};$('transposeDown').onclick=()=>{transpose--;drawSong()};$('toggleMirror').onclick=()=>{stageMirrored=!stageMirrored;drawSong()};$('toggleFavorite').onclick=()=>{if(!currentSong)return;const fav=STORE.getFavorites();const ids=new Set(fav.map(f=>f.id));if(ids.has(currentSong.id))STORE.saveFavorites(fav.filter(f=>f.id!==currentSong.id));else{fav.unshift({id:currentSong.id,title:currentSong.title});STORE.saveFavorites(fav)}renderLibrary();drawSong()};$('copyText').onclick=async()=>{if(!currentSong||currentSong.pdf)return;try{await navigator.clipboard.writeText(tText(currentSong.lyrics||'',transpose));$('copyText').innerText='Copiado';setTimeout(()=>$('copyText').innerText='Copiar',1200)}catch(e){}};window.addEventListener('keydown',e=>{if(['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName))return;if(e.key==='ArrowRight')goRelative(1);else if(e.key==='ArrowLeft')goRelative(-1);else if(e.key===' '){e.preventDefault();toggleScroll()}});window.addEventListener('scroll',updateProgress,{passive:true});renderSaved();loadLibrary();updateProgress();
+
+(function () {
+  const NOTE_SHARPS = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+  const FLAT_TO_SHARP = {'Db':'C#','Eb':'D#','Gb':'F#','Ab':'G#','Bb':'A#'};
+
+  const state = {
+    allSongs: [],
+    filteredSongs: [],
+    selectedId: null,
+    filter: 'all',
+    scrollTimer: null,
+    scrollSpeed: 3,
+    setlist: [],
+    savedSetlists: readSavedSetlists(),
+    favorites: readFavorites(),
+    transpose: 0,
+    mirrored: false
+  };
+
+  const $ = (id) => document.getElementById(id);
+  const dom = {
+    libraryList: $('libraryList'),
+    libraryCount: $('libraryCount'),
+    searchInput: $('searchInput'),
+    viewerTitle: $('viewerTitle'),
+    viewerSubtitle: $('viewerSubtitle'),
+    metaKey: $('metaKey'),
+    metaBpm: $('metaBpm'),
+    metaCapo: $('metaCapo'),
+    metaSource: $('metaSource'),
+    viewerContent: $('viewerContent'),
+    fontRange: $('fontRange'),
+    increaseFont: $('increaseFont'),
+    decreaseFont: $('decreaseFont'),
+    copyText: $('copyText'),
+    toggleFavorite: $('toggleFavorite'),
+    startScroll: $('startScroll'),
+    scrollSpeed: $('scrollSpeed'),
+    toggleStageMode: $('toggleStageMode'),
+    refreshLibrary: $('refreshLibrary'),
+    addToSetlist: $('addToSetlist'),
+    setlistList: $('setlistList'),
+    setlistCount: $('setlistCount'),
+    nextSongCard: $('nextSongCard'),
+    nextSong: $('nextSong'),
+    prevSong: $('prevSong'),
+    jumpInput: $('jumpInput'),
+    jumpButton: $('jumpButton'),
+    saveSetlist: $('saveSetlist'),
+    clearSetlist: $('clearSetlist'),
+    setlistTitle: $('setlistTitle'),
+    savedSetlistsSelect: $('savedSetlistsSelect'),
+    loadSavedSetlist: $('loadSavedSetlist'),
+    deleteSavedSetlist: $('deleteSavedSetlist'),
+    pdfInput: $('pdfInput'),
+    scrollProgress: $('scrollProgress'),
+    transposeDown: $('transposeDown'),
+    transposeUp: $('transposeUp'),
+    toggleMirror: $('toggleMirror')
+  };
+
+  function unregisterOldCaches() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister())).catch(() => {});
+    }
+    if ('caches' in window) {
+      caches.keys().then(keys => keys.forEach(k => caches.delete(k))).catch(() => {});
+    }
+  }
+
+  function esc(v) {
+    return String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function normalizeSong(song, origin) {
+    return {
+      id: song.id || `${origin}-${song.title || 'song'}-${song.artist || 'artist'}`.toLowerCase().replace(/\s+/g, '-'),
+      title: song.title || 'Sem título',
+      artist: song.artist || 'Artista não informado',
+      key: song.key || '—',
+      bpm: song.bpm || '—',
+      capo: song.capo || '—',
+      tags: Array.isArray(song.tags) ? song.tags : String(song.tags || '').split(',').map(v => v.trim()).filter(Boolean),
+      notes: song.notes || '',
+      lyrics: song.lyrics || '',
+      source: origin === 'online' ? 'Online' : 'Local',
+      sourceType: origin,
+      pdf: song.pdf || ''
+    };
+  }
+
+  async function fetchOnlineLibrary() {
+    const response = await fetch('content/online-library/manifest.json?b=121', { cache: 'no-store' });
+    if (!response.ok) {
+      throw new Error('manifest.json não encontrado');
+    }
+    const payload = await response.json();
+    const musics = Array.isArray(payload.musics) ? payload.musics : [];
+    return musics.map(song => normalizeSong(song, 'online'));
+  }
+
+  function getLocalLibrary() {
+    return readLocalPdfs().map(item => normalizeSong({
+      title: item.title,
+      artist: 'PDF Local',
+      key: '—',
+      bpm: '—',
+      capo: '—',
+      tags: ['pdf', 'local'],
+      notes: 'Arquivo local do músico',
+      lyrics: '',
+      pdf: item.dataUrl
+    }, 'local'));
+  }
+
+  function currentSong() {
+    return state.allSongs.find(song => song.id === state.selectedId) ||
+           state.setlist.find(song => song.id === state.selectedId) ||
+           null;
+  }
+
+  function favoriteIds() {
+    return new Set(state.favorites.map(item => item.id));
+  }
+
+  function isFavorite(id) {
+    return favoriteIds().has(id);
+  }
+
+  function toSharp(note) {
+    return FLAT_TO_SHARP[note] || note;
+  }
+
+  function transposeRoot(root, delta) {
+    const index = NOTE_SHARPS.indexOf(toSharp(root));
+    if (index === -1) return root;
+    return NOTE_SHARPS[(index + delta + 120) % 12];
+  }
+
+  function transposeChordToken(token, delta) {
+    const parts = token.split('/');
+    const left = parts[0].replace(/^([A-G](?:#|b)?)/, m => transposeRoot(m, delta));
+    return parts[1] ? `${left}/${transposeRoot(parts[1], delta)}` : left;
+  }
+
+  function transposeText(text, delta) {
+    if (!delta) return text;
+    return String(text).replace(/\b([A-G](?:#|b)?(?:m|maj7|7|sus2|sus4|dim|add9|9|11|13)?(?:\/[A-G](?:#|b)?)?)\b/g, m => transposeChordToken(m, delta));
+  }
+
+  function highlightLyrics(text) {
+    return String(text).split('\n').map(line => {
+      const safe = esc(line);
+      if (/^[\[(#].+[\])]?$/.test(line.trim())) {
+        return `<span class="section">${safe}</span>`;
+      }
+      return safe.replace(/\b([A-G](#|b)?(m|maj7|7|sus2|sus4|dim|add9|9|11|13)?)(\/([A-G](#|b)?))?\b/g, '<span class="chord">$1</span>');
+    }).join('\n');
+  }
+
+  function updateFavoriteButton() {
+    const song = currentSong();
+    if (dom.toggleFavorite) {
+      dom.toggleFavorite.textContent = song && isFavorite(song.id) ? '★' : '☆';
+    }
+  }
+
+  function renderSavedSetlists() {
+    if (!dom.savedSetlistsSelect) return;
+    dom.savedSetlistsSelect.innerHTML =
+      '<option value="">Setlists salvos</option>' +
+      state.savedSetlists.map(item => `<option value="${item.id}">${esc(item.name)}</option>`).join('');
+  }
+
+  function renderLibrary() {
+    if (!dom.libraryList) return;
+    const q = dom.searchInput ? dom.searchInput.value.trim().toLowerCase() : '';
+
+    state.filteredSongs = state.allSongs.filter(song => {
+      const matchesFilter =
+        state.filter === 'all' ||
+        song.sourceType === state.filter ||
+        (state.filter === 'favorites' && isFavorite(song.id));
+
+      const bag = [song.title, song.artist, song.key, song.notes, song.tags.join(' ')].join(' ').toLowerCase();
+      return matchesFilter && bag.includes(q);
+    });
+
+    if (dom.libraryCount) {
+      dom.libraryCount.textContent = `${state.filteredSongs.length} faixas`;
+    }
+
+    if (!state.filteredSongs.length) {
+      dom.libraryList.innerHTML = '<div class="empty-state"><div class="empty-icon">⊘</div><p>Nenhuma música encontrada.</p></div>';
+      return;
+    }
+
+    dom.libraryList.innerHTML = state.filteredSongs.map(song => `
+      <article class="song-item ${song.id === state.selectedId ? 'active' : ''}" data-id="${song.id}">
+        <h3>${esc(song.title)}</h3>
+        <p>${esc(song.artist)} • Tom ${esc(song.key)} • ${esc(song.source)}</p>
+        <div class="song-tags">
+          ${isFavorite(song.id) ? '<span class="tag">favorita</span>' : ''}
+          ${(song.tags.length ? song.tags : ['sem tags']).slice(0, 4).map(tag => `<span class="tag">${esc(tag)}</span>`).join('')}
+        </div>
+      </article>
+    `).join('');
+
+    dom.libraryList.querySelectorAll('.song-item').forEach(item => {
+      item.addEventListener('click', () => openSong(item.dataset.id));
+    });
+  }
+
+  function renderSetlist() {
+    if (dom.setlistCount) dom.setlistCount.textContent = `${state.setlist.length} músicas`;
+
+    const currentIndex = state.setlist.findIndex(song => song.id === state.selectedId);
+    const nextSong = currentIndex >= 0 ? state.setlist[currentIndex + 1] : state.setlist[0];
+    if (dom.nextSongCard) {
+      dom.nextSongCard.textContent = nextSong ? `Próxima: ${nextSong.title} — ${nextSong.artist}` : 'Nenhuma próxima música';
+    }
+
+    if (!dom.setlistList) return;
+
+    if (!state.setlist.length) {
+      dom.setlistList.innerHTML = '<div class="empty-state"><div class="empty-icon">♪</div><p>Monte seu repertório ao vivo.</p></div>';
+      renderSavedSetlists()
+      return;
+    }
+
+    dom.setlistList.innerHTML = state.setlist.map((song, index) => `
+      <article class="setlist-item ${song.id === state.selectedId ? 'active' : ''}" data-id="${song.id}">
+        <h4>${index + 1}. ${esc(song.title)}</h4>
+        <p>${esc(song.artist)} • Tom ${esc(song.key)}</p>
+        <div class="setlist-inline">
+          <button class="mini-btn up" data-index="${index}" type="button">↑</button>
+          <button class="mini-btn down" data-index="${index}" type="button">↓</button>
+          <button class="mini-btn remove" data-index="${index}" type="button">Remover</button>
+        </div>
+      </article>
+    `).join('');
+
+    dom.setlistList.querySelectorAll('.setlist-item').forEach(item => {
+      item.addEventListener('click', () => openSong(item.dataset.id));
+    });
+    dom.setlistList.querySelectorAll('.up').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const i = Number(btn.dataset.index);
+        if (i > 0) [state.setlist[i - 1], state.setlist[i]] = [state.setlist[i], state.setlist[i - 1]];
+        renderSetlist();
+      });
+    });
+    dom.setlistList.querySelectorAll('.down').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const i = Number(btn.dataset.index);
+        if (i < state.setlist.length - 1) [state.setlist[i + 1], state.setlist[i]] = [state.setlist[i], state.setlist[i + 1]];
+        renderSetlist();
+      });
+    });
+    dom.setlistList.querySelectorAll('.remove').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        state.setlist.splice(Number(btn.dataset.index), 1);
+        renderSetlist();
+      });
+    });
+
+    renderSavedSetlists();
+  }
+
+  function renderCurrentSong() {
+    const song = currentSong();
+    if (!song || !dom.viewerContent) return;
+
+    if (song.pdf) {
+      dom.viewerContent.classList.toggle('mirrored', state.mirrored);
+      dom.viewerContent.innerHTML = `<iframe src="${song.pdf}" style="width:100%;height:72vh;border:none;border-radius:18px;background:#fff"></iframe>`;
+      if (dom.metaKey) dom.metaKey.textContent = song.key || '—';
+      return;
+    }
+
+    const transposed = transposeText(song.lyrics || 'Sem letra/cifra cadastrada.', state.transpose);
+    dom.viewerContent.classList.toggle('mirrored', state.mirrored);
+    dom.viewerContent.innerHTML = highlightLyrics(transposed);
+
+    if (dom.metaKey) {
+      dom.metaKey.textContent = (song.key && song.key !== '—') ? transposeRoot(song.key, state.transpose) : '—';
+    }
+  }
+
+  function openSong(id) {
+    const song = state.allSongs.find(item => item.id === id) || state.setlist.find(item => item.id === id);
+    if (!song) return;
+
+    state.selectedId = id;
+    state.transpose = 0;
+
+    if (dom.viewerTitle) dom.viewerTitle.textContent = song.title;
+    if (dom.viewerSubtitle) dom.viewerSubtitle.textContent = `${song.artist}${song.notes ? ' • ' + song.notes : ''}`;
+    if (dom.metaBpm) dom.metaBpm.textContent = song.bpm || '—';
+    if (dom.metaCapo) dom.metaCapo.textContent = song.capo || '—';
+    if (dom.metaSource) dom.metaSource.textContent = song.source || '—';
+
+    renderCurrentSong();
+    renderLibrary();
+    renderSetlist();
+    updateFavoriteButton();
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  async function loadLibrary() {
+    try {
+      const online = await fetchOnlineLibrary();
+      const local = getLocalLibrary();
+      state.allSongs = [...online, ...local];
+
+      renderLibrary();
+      renderSetlist();
+
+      if (state.allSongs.length && !state.selectedId) {
+        openSong(state.allSongs[0].id);
+      }
+    } catch (e) {
+      if (dom.libraryCount) dom.libraryCount.textContent = 'erro';
+      if (dom.libraryList) {
+        dom.libraryList.innerHTML = `<div class="empty-state"><div class="empty-icon">!</div><p>Não foi possível carregar a biblioteca.</p><p style="font-size:.9rem">${esc(e.message)}</p></div>`;
+      }
+      console.error(e);
+    }
+  }
+
+  function setViewerSize(size) {
+    document.documentElement.style.setProperty('--size', `${size}px`);
+    if (dom.fontRange) dom.fontRange.value = size;
+  }
+
+  function toggleScroll() {
+    if (state.scrollTimer) {
+      clearInterval(state.scrollTimer);
+      state.scrollTimer = null;
+      if (dom.startScroll) dom.startScroll.textContent = 'Auto Scroll';
+      return;
+    }
+
+    state.scrollTimer = setInterval(() => {
+      window.scrollBy({ top: state.scrollSpeed, left: 0, behavior: 'smooth' });
+      updateProgress();
+    }, 90);
+
+    if (dom.startScroll) dom.startScroll.textContent = 'Parar Scroll';
+  }
+
+  function updateProgress() {
+    if (!dom.scrollProgress) return;
+    const doc = document.documentElement;
+    const max = Math.max(1, doc.scrollHeight - window.innerHeight);
+    const pct = Math.min(100, Math.max(0, (window.scrollY / max) * 100));
+    dom.scrollProgress.style.width = `${pct}%`;
+  }
+
+  function addCurrentToSetlist() {
+    const song = currentSong();
+    if (!song) return;
+    state.setlist.push({ ...song });
+    renderSetlist();
+  }
+
+  function goRelative(delta) {
+    if (!state.setlist.length) return;
+    const idx = state.setlist.findIndex(song => song.id === state.selectedId);
+    const nextIdx = idx === -1 ? 0 : Math.min(Math.max(idx + delta, 0), state.setlist.length - 1);
+    openSong(state.setlist[nextIdx].id);
+  }
+
+  function jumpToTrack() {
+    const idx = Number(dom.jumpInput ? dom.jumpInput.value : 0) - 1;
+    if (idx >= 0 && idx < state.setlist.length) {
+      openSong(state.setlist[idx].id);
+    }
+  }
+
+  function saveSetlist() {
+    const name = prompt('Nome do repertório:', `Setlist ${new Date().toLocaleDateString('pt-BR')}`);
+    if (!name) return;
+    state.savedSetlists.unshift({
+      id: `setlist-${Date.now()}`,
+      name,
+      createdAt: new Date().toISOString(),
+      songs: state.setlist
+    });
+    writeSavedSetlists(state.savedSetlists);
+    if (dom.setlistTitle) dom.setlistTitle.textContent = `Setlist atual • ${name}`;
+    renderSavedSetlists();
+  }
+
+  function loadSavedSetlist() {
+    const id = dom.savedSetlistsSelect ? dom.savedSetlistsSelect.value : '';
+    if (!id) return;
+    const item = state.savedSetlists.find(entry => entry.id === id);
+    if (!item) return;
+    state.setlist = (item.songs || []).map(song => ({ ...song }));
+    if (dom.setlistTitle) dom.setlistTitle.textContent = `Setlist atual • ${item.name}`;
+    renderSetlist();
+    if (state.setlist.length) openSong(state.setlist[0].id);
+  }
+
+  function deleteSavedSetlist() {
+    const id = dom.savedSetlistsSelect ? dom.savedSetlistsSelect.value : '';
+    if (!id) return;
+    state.savedSetlists = state.savedSetlists.filter(item => item.id !== id);
+    writeSavedSetlists(state.savedSetlists);
+    renderSavedSetlists();
+  }
+
+  function toggleFavorite() {
+    const song = currentSong();
+    if (!song) return;
+    if (isFavorite(song.id)) {
+      state.favorites = state.favorites.filter(item => item.id !== song.id);
+    } else {
+      state.favorites.unshift({ id: song.id, title: song.title });
+    }
+    writeFavorites(state.favorites);
+    renderLibrary();
+    updateFavoriteButton();
+  }
+
+  function handlePdfUpload(event) {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const items = readLocalPdfs();
+      items.unshift({
+        title: file.name.replace(/\.pdf$/i, ''),
+        dataUrl: reader.result
+      });
+      writeLocalPdfs(items);
+      await loadLibrary();
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function handleKeys(e) {
+    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
+    if (e.key === 'ArrowRight') goRelative(1);
+    else if (e.key === 'ArrowLeft') goRelative(-1);
+    else if (e.key === ' ') {
+      e.preventDefault();
+      toggleScroll();
+    }
+  }
+
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(btn => btn.classList.remove('active'));
+      tab.classList.add('active');
+      state.filter = tab.dataset.filter;
+      renderLibrary();
+    });
+  });
+
+  if (dom.searchInput) dom.searchInput.addEventListener('input', renderLibrary);
+  if (dom.refreshLibrary) dom.refreshLibrary.addEventListener('click', loadLibrary);
+  if (dom.pdfInput) dom.pdfInput.addEventListener('change', handlePdfUpload);
+  if (dom.toggleStageMode) dom.toggleStageMode.addEventListener('click', () => document.body.classList.toggle('stage-mode'));
+  if (dom.increaseFont) dom.increaseFont.addEventListener('click', () => setViewerSize(Math.min(44, Number(dom.fontRange ? dom.fontRange.value : 21) + 1)));
+  if (dom.decreaseFont) dom.decreaseFont.addEventListener('click', () => setViewerSize(Math.max(14, Number(dom.fontRange ? dom.fontRange.value : 21) - 1)));
+  if (dom.fontRange) dom.fontRange.addEventListener('input', (e) => setViewerSize(e.target.value));
+  if (dom.startScroll) dom.startScroll.addEventListener('click', toggleScroll);
+  if (dom.scrollSpeed) dom.scrollSpeed.addEventListener('input', (e) => state.scrollSpeed = Number(e.target.value));
+  if (dom.addToSetlist) dom.addToSetlist.addEventListener('click', addCurrentToSetlist);
+  if (dom.nextSong) dom.nextSong.addEventListener('click', () => goRelative(1));
+  if (dom.prevSong) dom.prevSong.addEventListener('click', () => goRelative(-1));
+  if (dom.jumpButton) dom.jumpButton.addEventListener('click', jumpToTrack);
+  if (dom.jumpInput) dom.jumpInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') jumpToTrack(); });
+  if (dom.saveSetlist) dom.saveSetlist.addEventListener('click', saveSetlist);
+  if (dom.loadSavedSetlist) dom.loadSavedSetlist.addEventListener('click', loadSavedSetlist);
+  if (dom.deleteSavedSetlist) dom.deleteSavedSetlist.addEventListener('click', deleteSavedSetlist);
+  if (dom.clearSetlist) dom.clearSetlist.addEventListener('click', () => { state.setlist = []; renderSetlist(); });
+  if (dom.copyText) {
+    dom.copyText.addEventListener('click', async () => {
+      const song = currentSong();
+      if (!song || song.pdf) return;
+      try {
+        await navigator.clipboard.writeText(transposeText(song.lyrics || '', state.transpose));
+        dom.copyText.textContent = 'Copiado';
+        setTimeout(() => dom.copyText.textContent = 'Copiar', 1200);
+      } catch (e) {}
+    });
+  }
+  if (dom.toggleFavorite) dom.toggleFavorite.addEventListener('click', toggleFavorite);
+  if (dom.transposeUp) dom.transposeUp.addEventListener('click', () => { state.transpose += 1; renderCurrentSong(); });
+  if (dom.transposeDown) dom.transposeDown.addEventListener('click', () => { state.transpose -= 1; renderCurrentSong(); });
+  if (dom.toggleMirror) dom.toggleMirror.addEventListener('click', () => { state.mirrored = !state.mirrored; renderCurrentSong(); });
+
+  window.addEventListener('keydown', handleKeys);
+  window.addEventListener('scroll', updateProgress, { passive: true });
+
+  unregisterOldCaches();
+  setViewerSize(21);
+  renderSavedSetlists();
+  loadLibrary();
+  updateProgress();
+})();
