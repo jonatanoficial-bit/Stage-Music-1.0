@@ -1,20 +1,10 @@
 # Stage Music — Live Music Performance
 
-**Build:** 2026-03-10 13:45  
-**Versão:** v1.1.0  
-**Status:** refinamento visual premium internacional
+**Build:** 2026-03-10 14:15  
+**Versão:** v1.2.0  
+**Status:** correção completa do carregamento das músicas
 
-## O que esta build entrega
-
-- novo visual premium com identidade forte
-- logo PNG aplicado no header
-- fundo de palco aplicado com overlay nas cores da marca
-- botões redesenhados
-- contraste e hierarquia visual melhores
-- base funcional mantida
-- PWA instalável
-- atalhos de palco
-- favoritos
-- setlists múltiplos
-- transposição básica
-- PDFs locais persistentes
+- corrigido erro de leitura do campo de busca
+- carregamento da biblioteca online reforçado
+- elementos JS sincronizados com o HTML
+- visual premium mantido
