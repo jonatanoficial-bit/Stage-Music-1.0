@@ -1,62 +1,72 @@
 {
-  "version": "1.5.0",
-  "updatedAt": "2026-03-10T13:45:00-03:00",
+  "version": "1.0.0",
+  "updatedAt": "2026-03-10T13:16:49.485Z",
   "musics": [
     {
-      "id": "exemplo-worship",
-      "title": "Exemplo Worship",
-      "artist": "Demo",
-      "key": "G",
-      "bpm": 72,
-      "capo": "Sem capotraste",
-      "tags": [
-        "adoração",
-        "demo"
-      ],
-      "notes": "Entrada suave",
-      "lyrics": "[Intro]\nG  D/F#  Em7  C\n\n[Verso]\nG           D\nLetra exemplo\nEm7         C\nSegue a canção"
+      "id": "6144137d-4ce6-4860-a5f8-814eed50b522",
+      "title": "Sobre As Águas",
+      "artist": "Davi Sacer",
+      "key": "F",
+      "bpm": "",
+      "capo": "",
+      "tags": [],
+      "notes": "",
+      "lyrics": "Tom: F\n[Intro] Gm  Dm7  C/E  F\n        Gm  Dm7  C/E\n\n[Primeira Parte]\n\n F4          F\nSe o sol se pôr\n     A#9/D    Dm7\nE a noite chegar\n   A#9          C4\nTu és quem me guia\n F4         F\nSe a tempestade\n A#9/D   Dm7\nMe alcançar\n   A#9       C4\nTu és meu abrigo\n\n[Refrão]\n\n      A#9          Dm7\nSe o mar me submergir\n   C   A#9\nA Tua mão\n           Dm7  C       A#9\nMe traz a tona pra respirar\n            F/A\nE me faz andar\n          ( C  A#/D  C/E )\nSobre as águas\n\n   A#9           Dm7  C    A#9\nTu és o Deus da minha salvação\n          Dm7  C        A#9\nÉs o meu dono  minha paixão\n          F/A          \nMinha canção e o meu louvor\n\n( C  A#/D  C/E )\n\n[Primeira Parte]\n\n F4          F\nSe o sol se pôr\n     A#9/D    Dm7\nE a noite chegar\n   A#9          C4\nTu és quem me guia\n F4         F\nSe a tempestade\n A#9/D   Dm7\nMe alcançar\n   A#9       C4 \nTu és meu abrigo\n\n[Refrão]\n\n      A#9          Dm7\nSe o mar me submergir\n   C   A#9\nA Tua mão\n           Dm7  C       A#9\nMe traz a tona pra respirar\n            F/A\nE me faz andar\n          ( C  A#/D  C/E )\nSobre as águas\n\n   A#9           Dm7  C    A#9\nTu és o Deus da minha salvação\n          Dm7  C        A#9\nÉs o meu dono  minha paixão\n          F/A            \nMinha canção e o meu louvor\n\n( C  A#/D  C/E )\n\n[Ponte]\n\nGm  Dm7  C/E  F\nA___le____lu____ia\nGm  Dm7  C/E  F\nA___le____lu____ia\nGm  Dm7  C/E  F\nA___le____lu____ia\nGm  Dm7  C/E  F\nA___le____lu____ia\n\nGm  Dm7  C/E  F\nA___le____lu____ia\nGm  Dm7  C/E  F\nA___le____lu____ia\nGm  Dm7  C/E  F\nA___le____lu____ia\nGm  Dm7  C/E  F\nA___le____lu____ia\n\n[Refrão]\n\n      A#9          Dm7\nSe o mar me submergir\n   C   A#9\nA Tua mão\n           Dm7  C       A#9\nMe traz a tona pra respirar\n            F/A\nE me faz andar\n          ( C  A#/D  C/E )\nSobre as águas\n\n   A#9           Dm7  C    A#9\nTu és o Deus da minha salvação\n          Dm7  C        A#9\nÉs o meu dono  minha paixão\n          F/A           \nMinha canção e o meu louvor\n\n( C  A#/D  C/E )\n\n[Ponte]\n\nGm  Dm7  C/E  F\nA___le____lu____ia\nGm  Dm7  C/E  F\nA___le____lu____ia\nGm  Dm7  C/E  F\nA___le____lu____ia\nGm  Dm7  C/E  F\nA___le____lu____ia"
     },
     {
-      "id": "exemplo-noite",
-      "title": "Exemplo Noite",
-      "artist": "Demo Band",
-      "key": "A",
-      "bpm": 98,
-      "capo": "2",
-      "tags": [
-        "noite",
-        "demo"
-      ],
-      "notes": "Levado aberto",
-      "lyrics": "[Verso]\nA   E/G#   F#m   D\nLetra de barzinho\n\n[Refrão]\nA   E   F#m   D"
+      "id": "4d8eee28-7dde-40bd-aca6-d0a19f8c58d3",
+      "title": "Lugar Secreto",
+      "artist": "Gabriela Rocha",
+      "key": "Am",
+      "bpm": "",
+      "capo": "",
+      "tags": [],
+      "notes": "",
+      "lyrics": "[Intro] F  Am  G\n        F  Am  G\n\n[Primeira Parte]\n\nF        Am                 G\n  Tu és tudo o que eu mais quero\nF        Am        G\n  O meu fôlego, Tu és\nF           Am         G\n  Em Teus braços, é o meu lugar\n        F       Am   G\nEstou aqui,  estou aqui\n\nF         Am          G\n  Pai, eu amo Sua presença\nF         Am             G\n  Teu sorriso é vida em mim\nF       Am           G\n  Eu seguro em Suas mãos\n           F      Am     G\nConfio em Ti, confio em Ti\n\n[Refrão]\n\n               F\nQuero ir mais fundo\n              Dm\nLeva-me mais perto\n              Am\nOnde eu Te encontro\n             Em\nNo lugar secreto\n                  F\nAos Teus pés, me rendo\n             Dm          Am  G\nPois a Tua glória quero ver\n\n[Solo]F  Dm  Am  Em\n      F  Dm  Am  G\n\n[Primeira Parte]\n\nF         Am          G\n  Pai, eu amo Sua presença\nF         Am             G\n  Teu sorriso é vida em mim\nF       Am           G\n  Eu seguro em Suas mãos\n           F       Am     G\nConfio em Ti,  confio em Ti\n\n[Refrão]\n\n               F\nQuero ir mais fundo\n              Dm\nLeva-me mais perto\n              Am\nOnde eu Te encontro\n             Em\nNo lugar secreto\n                  F\nAos Teus pés, me rendo\n             Dm          Am  G\nPois a Tua glória quero ver\n\n               F\nQuero ir mais fundo\n              Dm\nLeva-me mais perto\n              Am\nOnde eu Te encontro\n             Em\nNo lugar secreto\n                  F\nAos Teus pés, me rendo\n             Dm          Am  G\nPois a Tua glória quero ver\n\n[Segunda Parte]\n\n                    F\nTudo o que eu mais quero é Te ver\n                     Dm\nMe envolva com Tua glória e poder\n          Am\nTua majestade é real\n          Em\nTua voz ecoa em meu ser\n\n                    F\nTudo o que eu mais quero é Te ver\n                     Dm\nMe envolva com Tua glória e poder\n          Am\nTua majestade é real\n          Em\nTua voz ecoa em meu ser\n\n                    F\nTudo o que eu mais quero é Te ver\n                     Dm\nMe envolva com Tua glória e poder\n          Am\nTua majestade é real\n          Em\nTua voz ecoa em meu ser\n\n                    F\nTudo o que eu mais quero é Te ver\n                     Dm\nMe envolva com Tua glória e poder\n          Am\nTua majestade é real\n          G\nTua voz ecoa em meu ser\n\n[Refrão]\n\n               F\nQuero ir mais fundo\n              Dm\nLeva-me mais perto\n              Am\nOnde eu Te encontro\n             Em\nNo lugar secreto\n                  F\nAos Teus pés, me rendo\n             Dm          Am  G\nPois a Tua glória quero ver\n\n[Final] F  Dm  Am  Em \n        F  Dm  Am  G"
     },
     {
-      "id": "exemplo-igreja",
-      "title": "Exemplo Igreja",
-      "artist": "Ministério Sample",
-      "key": "D",
-      "bpm": 84,
-      "capo": "Sem capotraste",
-      "tags": [
-        "igreja",
-        "culto"
-      ],
-      "notes": "Final em crescendo",
-      "lyrics": "[Verso]\nD   A/C#   Bm   G\nMesmo na noite vou cantar\n\n[Ponte]\nEm   G   D/F#   A"
+      "id": "4093395f-5206-4691-b5d2-72035c408ebb",
+      "title": "O Que Sua Glória Fez Comigo",
+      "artist": "Fernanda Brum",
+      "key": "Am",
+      "bpm": "",
+      "capo": "",
+      "tags": [],
+      "notes": "",
+      "lyrics": "[Intro] F  G  Em  Am\n        F  G  Em  Am\n\n\n\n\n\n[Primeira Parte]\n\nF             Dm7\n   Eu me rasgo     por inteiro\nEm                 Am\n   Faço tudo, mas vem novamente\nF                 Dm7\n   Eu mergulho na mirra ardente\nEm                      Am\n   Mas peço que Tua presença aumente\n\n[Solo] F  Dm7  Am  Em\n       F  Dm7  Am  Em\n\n\n\nF             Dm7\n   Eu me rasgo     por inteiro\nEm                 Am\n   Faço tudo, mas vem novamente\nF                 Dm7\n   Eu mergulho na mirra ardente\nEm                      Am\n   Mas peço que Tua presença aumente\n\n[Pré-Refrão]\n\nF                      Dm7          G\n   E se eu passar pelo fogo não temerei\nPágina 1 / 4\n                   Em\nNa Tua fumaça de glória eu entrarei\nF                     Dm7\n   Longe do Santo dos Santos\n                G4  G\nNão sei mais viver\n\n[Refrão]\n\n      C/E  F                 G7/F\nQuem já   pisou no santo dos santos\n            Em             Am\nEm outro lugar não sabe viver\n            F              G\nE onde estiver clama pela glória\n             C4  C  C4  C       \nA glória de Deus\n\n( C  Dm  Em )\n\n         F                 G7/F\nQuem já pisou no santo dos santos\n            Em             Am\nEm outro lugar não sabe viver\n            F              G\nE onde estiver clama pela glória\n             C4  C\nA glória de Deus\n\n[Ponte]\n\n  F  G/F        Em  Am\nGló________ria, gló_ria\n  F  G/F        Em  Am\nGló________ria, gló_ria\n F  G/F      Em  Am\nSan_______to, San_to\n F  G/F      Em  Am\nSan_______to, San_to\n\n F  G/F        Em  Am\nKa________dosh, ka__dosh\n F  G/F        Em  Am\nKa________dosh, ka__dosh\nPágina 2 / 4\n F  G/F      Em  Am\nHo________ly, Ho__ly\n F  G/F      Em  Am\nHo________ly, Ho__ly\n\n[Refrão]\n\n         F                 G/F\nQuem já pisou no santo dos santos\n            Em             Am\nEm outro lugar não sabe viver\n            F              G\nE onde estiver clama pela glória\n             C4  C  C4\nA glória de Deus\n\n         F                 G/F\nQuem já pisou no santo dos santos\n            Em             Am\nEm outro lugar não sabe viver\n            F              G\nE onde estiver clama pela glória\n             C4  C  C4  C\nA glória de Deus\n\n[Final]\n\n  F  G/F        Em  Am\nGló________ria, gló_ria\n  F  G/F        Em  Am\nGló________ria, gló_ria"
     },
     {
-      "id": "exemplo-rock",
-      "title": "Exemplo Rock",
-      "artist": "Sample Trio",
+      "id": "0d556708-7c59-4add-9872-dff246a340f0",
+      "title": "Cercado de Glória",
+      "artist": "Be One Music",
       "key": "E",
-      "bpm": 126,
-      "capo": "Sem capotraste",
-      "tags": [
-        "rock",
-        "noite"
-      ],
-      "notes": "Drive forte no refrão",
-      "lyrics": "[Verso]\nE   B   C#m   A\nSigo na estrada sem parar\n\n[Refrão]\nE   B   A   E"
+      "bpm": "",
+      "capo": "",
+      "tags": [],
+      "notes": "",
+      "lyrics": "C#m        A       E\nEstás cercado de toda gloria\n         C#m         A          B\nE a plenitude está onde você está\n     C#m    A              E\nSua voz ecoa sobre terra e céus\n                 C#mA B\nE tudo que há em mim\n                   C#mA B\nSe prostra em adoração\n     C#m           A       E\nTeu amor inunda os corações\n         C#m         A         B\nTua paixão inflama  a nossa vida\n       F#m        A     B\nTua presença quebra tudo\n          C#m  A B\nQue não é real\n\n    F#m     A       C#mB\nSanto,  santo, santo\n    F#m     A       C#mB\nSanto,  santo, santo\n\n[Refrão]\n\n C#m            B\nVem com fogo e glória oh Deus\n       E/G#               A\nCom tua presença, com tua presença"
+    },
+    {
+      "id": "7adae67a-e08a-49c2-9f2d-cec2bc4db0e2",
+      "title": "Que Se Abram Os Céus",
+      "artist": "Nívea Soares",
+      "key": "G",
+      "bpm": "",
+      "capo": "",
+      "tags": [],
+      "notes": "",
+      "lyrics": "G\nTu és bem-vindo aqui\n                Em7\nE em nosso coração\n C9         G  G7M(9)\nToma a direção\n\n G\nDeus fogo consumidor\n                  Em7\nSem impedimentos vem\n        C9       G  G7M(9)\nFace a face, Senhor\n\n[Ponte]\n\n C    D   Em7\nSopra em nós\n   C  D  Em7\nEspí_ri_to\n C   D  Em7   D\nTe que_remos, Deus\n\n[Solo] Em7  G  Em7  D\n\n\n[Segunda Parte]\n\n          G\nEstou de pé\n\nNa presença do Rei\n                   Em7\nTua glória está aqui\nPágina 1 / 4\n      C9          G  G7M(9)\nTeu amor liberta-me\n\n         G\nEstás aqui\n\nNo trono de louvor\n                   Em7\nTua presença me curou\n      C9     G  D/F#\nFascinado estou\n\n[Ponte]\n\n C  D     Em7\nSopra em nós\n   C  D  Em7\nEspí_ri_to\n C   D  Em7   D\nTe que_remos, Deus\n\n C  D     Em7\nSopra em nós\n   C  D  Em7\nEspí_ri_to\n C   D  Em7   D\nTe que_remos, Deus\n  \n C  D     Em7\nSopra em nós\n   C  D  Em7\nEspí_ri_to\n C   D  Em7   D\nTe que_remos, Deus\n\n[Solo] Em7  G  Em7  D\n       Em7  G  Em7  D\n\n\n[Refrão]\n\n                 Em7\nQue se abram os céus\nPágina 2 / 4\n             C9\nO teu reino vem\n            Em7\nNossa fé está\n          D\nNo nosso Deus\n\n                 Em7\nQue se abram os céus\n             C9\nO teu reino vem\n            Em7\nNossa fé está\n          D\nNo nosso Deus\n\n        Em7\nQue os céus fechados se abram\n     C9\nTeu reino venha mover\n   G\nA nossa fé e esperança\n          D           \nEstão em Deus Grande Deus\n\n[Terceira Parte]\n\n        Em7\nQue os céus fechados se abram\n     C9\nTeu reino venha mover\n   G\nA nossa fé e esperança\n          D           \nEstão em Deus Grande Deus\n\n[Solo] Em7  G  Em7  D\n       Em7  G  Em7  D\n       Em7  G  Em7  D\n       Em7  G  Em7  D  G"
+    },
+    {
+      "id": "b3c3a608-94c6-466c-9645-778f0f058344",
+      "title": "O Senhor É Bom",
+      "artist": "Nívea Soares",
+      "key": "E",
+      "bpm": "",
+      "capo": "",
+      "tags": [],
+      "notes": "",
+      "lyrics": "[Intro] C#m  A\n        C#m  A\n\n C#m            A                   C#m              A\nBendirei ao Senhor pra sempre, proclamarei que o senhor é bom\n C#m            A                   C#m              A\nBendirei ao Senhor pra sempre, proclamarei que o senhor é bom\n\n          C#m         B     A\nO Senhor reina, reinará com majestade\n          C#m          B       A\nO Senhor reina, em justiça e em verdade\n          C#m         B      A\nO Senhor reina, reinará com majestade\n          C#m          B       A\nO Senhor reina, em justiça e em verdade\n\n      E\nO Senhor é bom\n      A\nO Senhor é bom\n       C#m         B          A\nSua misericórdia, dura, para sempre\n      E\nO Senhor é bom\n      A\nO Senhor é bom\n       C#m         B          A\nSua misericórdia, dura, para sempre\n\n( C#m  A )\n( C#m  A )\n\n C#m            A                   C#m              A\nBendirei ao Senhor pra sempre, proclamarei que o senhor é bom\nPágina 1 / 3\n C#m            A                   C#m              A\nBendirei ao Senhor pra sempre, proclamarei que o senhor é bom\n\n          C#m         B        A\nO Senhor reina, reinará com majestade\n          C#m          B           A\nO Senhor reina, em justiça e em verdade\n          C#m         B           A\nO Senhor reina, reinará com majestade\n          C#m          B          A\nO Senhor reina, em justiça e em verdade\n\n      E\nO Senhor é bom\n      A\nO Senhor é bom\n       C#m         B          A\nSua misericórdia, dura, para sempre\n      E\nO Senhor é bom\n      A\nO Senhor é bom\n       C#m         B          A\nSua misericórdia, dura, para sempre\n      E\nO Senhor é bom\n      A\nO Senhor é bom\n       C#m         B          A\nSua misericórdia, dura, para sempre\n      E\nO Senhor é bom\n      A\nO Senhor é bom\n       C#m        B/D#  E     A\nSua misericórdia, dura, para sempre\n\n[Solo] E  A  C#m  B  A\n       E  A  C#m  B  A\n\n          C#m         B/D#     A\nO Senhor reina, reinará com majestade\n          C#m          B/D#       A\nO Senhor reina, em justiça e em verdade\nPágina 2 / 3\n          C#m         B         A\nO Senhor reina, reinará com majestade\n          C#m          B/D#       A\nO Senhor reina, em justiça e em verdade\n\n      E\nO Senhor é bom\n      A\nO Senhor é bom\n       C#m         B          A\nSua misericórdia, dura, para sempre\n      E\nO Senhor é bom\n      A\nO Senhor é bom\n       C#m         B          A\nSua misericórdia, dura, para sempre\n      E\nO Senhor é bom\n      A\nO Senhor é bom\n       C#m         B          A\nSua misericórdia, dura, para sempre"
     }
   ]
 }
