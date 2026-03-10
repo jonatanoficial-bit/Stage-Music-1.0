@@ -24,6 +24,7 @@
 
       <div class="top-actions">
         <button class="btn subtle" id="toggleStageMode" type="button">Modo Palco</button>
+        <button class="btn subtle" id="installApp" type="button" style="display:none">Instalar</button>
         <a class="btn subtle" href="admin/admin.html">Admin</a>
       </div>
     </header>
@@ -108,6 +109,7 @@
               <option value="">Setlists salvos</option>
             </select>
             <button class="btn subtle small" id="loadSavedSetlist" type="button">Carregar</button>
+            <button class="btn subtle small" id="deleteSavedSetlist" type="button">Excluir</button>
           </div>
 
           <div class="next-song-card" id="nextSongCard">Nenhuma próxima música</div>
@@ -121,6 +123,7 @@
             <button class="btn subtle small" id="startScroll" type="button">Auto Scroll</button>
             <button class="btn subtle small" id="transposeDown" type="button">- Tom</button>
             <button class="btn subtle small" id="transposeUp" type="button">+ Tom</button>
+            <button class="btn subtle small" id="toggleMirror" type="button">Espelhar</button>
             <label class="range-control"><span>Velocidade</span><input id="scrollSpeed" type="range" min="1" max="10" value="3"></label>
             <label class="range-control"><span>Zoom</span><input id="fontRange" type="range" min="16" max="34" value="21"></label>
           </div>
@@ -130,6 +133,7 @@
             <div class="progress-track"><div class="progress-fill" id="scrollProgress"></div></div>
           </div>
 
+          <div class="pedal-hint">Atalhos: esquerda/anterior, direita/próxima, espaço scroll</div>
           <article class="viewer-card">
             <div class="viewer-content" id="viewerContent">
               <div class="empty-state">
