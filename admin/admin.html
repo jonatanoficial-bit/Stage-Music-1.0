@@ -1,78 +1,78 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stage Music Admin</title>
-<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stage Music Admin</title>
+  <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-<div class="app-shell">
-  <div class="glow glow-a"></div>
-  <div class="glow glow-b"></div>
+  <div class="app-shell">
+    <div class="glow glow-a"></div>
+    <div class="glow glow-b"></div>
 
-  <header class="topbar glass">
-    <div class="brand">
-      <div class="brand-icon">⚙</div>
-      <div>
-        <h1>Stage Music Admin</h1>
-        <p>Banco online público de cifras e letras</p>
-      </div>
-    </div>
-    <div class="top-actions">
-      <a class="btn subtle" href="../index.html">Voltar ao App</a>
-    </div>
-  </header>
-
-  <main class="layout admin-layout">
-    <section class="panel glass">
-      <div class="section-head">
+    <header class="topbar glass">
+      <div class="brand">
+        <div class="brand-icon">⚙</div>
         <div>
-          <span class="eyebrow">Cadastro</span>
-          <h2>Nova música pública</h2>
-        </div>
-        <div class="pill" id="adminCount">0 músicas</div>
-      </div>
-
-      <div class="form-grid">
-        <label><span>Título</span><input id="title" type="text" placeholder="Ex.: Oceano"></label>
-        <label><span>Artista</span><input id="artist" type="text" placeholder="Ex.: Banda / Cantor"></label>
-        <label><span>Tom</span><input id="key" type="text" placeholder="Ex.: G"></label>
-        <label><span>BPM</span><input id="bpm" type="number" placeholder="Ex.: 72"></label>
-        <label><span>Capotraste</span><input id="capo" type="text" placeholder="Ex.: 2"></label>
-        <label><span>Tags</span><input id="tags" type="text" placeholder="Ex.: igreja, adoração, noite"></label>
-        <label class="full"><span>Observações</span><input id="notes" type="text" placeholder="Ex.: intro 2x"></label>
-        <label class="full"><span>Cifra / Letra</span><textarea id="lyrics" rows="16" placeholder="Cole aqui a cifra do Word..."></textarea></label>
-      </div>
-
-      <div class="setlist-actions">
-        <button class="btn primary" id="addMusic" type="button">Adicionar</button>
-        <button class="btn subtle" id="clearForm" type="button">Limpar</button>
-        <button class="btn subtle" id="importJson" type="button">Importar JSON</button>
-        <button class="btn subtle" id="exportJson" type="button">Exportar manifesto online</button>
-        <input id="jsonFileInput" type="file" accept=".json,application/json" hidden>
-      </div>
-
-      <div class="note-box">
-        Cadastre as músicas, exporte o <code>manifest.json</code> e substitua
-        <code>content/online-library/manifest.json</code> no seu GitHub.
-      </div>
-    </section>
-
-    <section class="panel glass">
-      <div class="section-head">
-        <div>
-          <span class="eyebrow">Prévia</span>
-          <h2>Biblioteca pública</h2>
+          <h1>Stage Music Admin</h1>
+          <p>Banco online público de cifras e letras</p>
         </div>
       </div>
-      <div class="library-list" id="adminList"></div>
-    </section>
-  </main>
-</div>
+      <div class="top-actions">
+        <a class="btn subtle" href="../index.html">Voltar ao App</a>
+      </div>
+    </header>
 
-<script src="../js/store.js"></script>
-<script src="../js/admin.js"></script>
+    <main class="layout admin-layout">
+      <section class="panel glass">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Cadastro</span>
+            <h2>Nova música pública</h2>
+          </div>
+          <div class="pill" id="adminCount">0 músicas</div>
+        </div>
+
+        <div class="form-grid">
+          <label><span>Título</span><input id="title" type="text" placeholder="Ex.: Oceano"></label>
+          <label><span>Artista</span><input id="artist" type="text" placeholder="Ex.: Banda / Cantor"></label>
+          <label><span>Tom</span><input id="key" type="text" placeholder="Ex.: G"></label>
+          <label><span>BPM</span><input id="bpm" type="number" placeholder="Ex.: 72"></label>
+          <label><span>Capotraste</span><input id="capo" type="text" placeholder="Ex.: 2"></label>
+          <label><span>Tags</span><input id="tags" type="text" placeholder="Ex.: igreja, adoração, noite"></label>
+          <label class="full"><span>Observações</span><input id="notes" type="text" placeholder="Ex.: intro 2x"></label>
+          <label class="full"><span>Cifra / Letra</span><textarea id="lyrics" rows="16" placeholder="Cole aqui a cifra do Word..."></textarea></label>
+        </div>
+
+        <div class="setlist-actions">
+          <button class="btn primary" id="addMusic" type="button">Adicionar</button>
+          <button class="btn subtle" id="clearForm" type="button">Limpar</button>
+          <button class="btn subtle" id="importJson" type="button">Importar JSON</button>
+          <button class="btn subtle" id="exportJson" type="button">Exportar manifesto online</button>
+          <input id="jsonFileInput" type="file" accept=".json,application/json" hidden>
+        </div>
+
+        <div class="note-box">
+          Cadastre as músicas, exporte o <code>manifest.json</code> e substitua
+          <code>content/online-library/manifest.json</code> no seu GitHub.
+        </div>
+      </section>
+
+      <section class="panel glass">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Prévia</span>
+            <h2>Biblioteca pública</h2>
+          </div>
+        </div>
+        <div class="library-list" id="adminList"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="../js/store.js"></script>
+  <script src="../js/admin.js"></script>
 </body>
 </html>

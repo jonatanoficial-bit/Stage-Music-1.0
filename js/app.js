@@ -1,114 +1,34 @@
-
-let library=[]
-let currentSong=null
-let transpose=0
-
-async function loadLibrary(){
-
-const r=await fetch("content/online-library/manifest.json")
-const j=await r.json()
-
-library=j.musics
-renderLibrary()
-
-}
-
-function renderLibrary(){
-
-const box=document.getElementById("library")
-box.innerHTML=""
-
-library.forEach((s,i)=>{
-
-const d=document.createElement("div")
-d.className="song"
-d.innerText=s.title+" - "+(s.artist||"")
-
-d.onclick=()=>openSong(i)
-
-box.appendChild(d)
-
-})
-
-}
-
-function openSong(i){
-
-currentSong=library[i]
-transpose=0
-renderSong()
-
-}
-
-function renderSong(){
-
-let text=currentSong.lyrics||""
-
-document.getElementById("title").innerText=currentSong.title+" (tom "+transpose+")"
-
-document.getElementById("viewer").innerText=text
-
-}
-
-document.getElementById("transposeUp").onclick=()=>{
-
-transpose++
-renderSong()
-
-}
-
-document.getElementById("transposeDown").onclick=()=>{
-
-transpose--
-renderSong()
-
-}
-
-document.getElementById("favorite").onclick=()=>{
-
-const fav=STORE.getFavorites()
-
-fav.push(currentSong)
-
-STORE.saveFavorites(fav)
-
-alert("Favoritado")
-
-}
-
-document.getElementById("saveSetlist").onclick=()=>{
-
-const setlists=STORE.getSetlists()
-
-setlists.push({
-date:new Date().toISOString(),
-song:currentSong
-})
-
-STORE.saveSetlists(setlists)
-
-renderSetlists()
-
-}
-
-function renderSetlists(){
-
-const box=document.getElementById("setlists")
-
-const list=STORE.getSetlists()
-
-box.innerHTML=""
-
-list.forEach(s=>{
-
-const d=document.createElement("div")
-d.innerText=s.song.title
-
-box.appendChild(d)
-
-})
-
-}
-
-loadLibrary()
-renderSetlists()
+const NOTE_SHARPS=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+const FLAT_TO_SHARP={'Db':'C#','Eb':'D#','Gb':'F#','Ab':'G#','Bb':'A#'};
+const state={allSongs:[],filteredSongs:[],selectedId:null,filter:'all',scrollTimer:null,scrollSpeed:3,setlist:[],savedSetlists:readSavedSetlists(),favorites:readFavorites(),transpose:0};
+const dom={libraryList:document.getElementById('libraryList'),libraryCount:document.getElementById('libraryCount'),searchInput:document.getElementById('searchInput'),viewerTitle:document.getElementById('viewerTitle'),viewerSubtitle:document.getElementById('viewerSubtitle'),metaKey:document.getElementById('metaKey'),metaBpm:document.getElementById('metaBpm'),metaCapo:document.getElementById('metaCapo'),metaSource:document.getElementById('metaSource'),viewerContent:document.getElementById('viewerContent'),fontRange:document.getElementById('fontRange'),increaseFont:document.getElementById('increaseFont'),decreaseFont:document.getElementById('decreaseFont'),copyText:document.getElementById('copyText'),toggleFavorite:document.getElementById('toggleFavorite'),startScroll:document.getElementById('startScroll'),scrollSpeed:document.getElementById('scrollSpeed'),toggleStageMode:document.getElementById('toggleStageMode'),refreshLibrary:document.getElementById('refreshLibrary'),addToSetlist:document.getElementById('addToSetlist'),setlistList:document.getElementById('setlistList'),setlistCount:document.getElementById('setlistCount'),nextSongCard:document.getElementById('nextSongCard'),nextSong:document.getElementById('nextSong'),prevSong:document.getElementById('prevSong'),jumpInput:document.getElementById('jumpInput'),jumpButton:document.getElementById('jumpButton'),saveSetlist:document.getElementById('saveSetlist'),clearSetlist:document.getElementById('clearSetlist'),setlistTitle:document.getElementById('setlistTitle'),savedSetlistsSelect:document.getElementById('savedSetlistsSelect'),loadSavedSetlist:document.getElementById('loadSavedSetlist'),pdfInput:document.getElementById('pdfInput'),scrollProgress:document.getElementById('scrollProgress'),transposeDown:document.getElementById('transposeDown'),transposeUp:document.getElementById('transposeUp')};
+function normalizeSong(song,origin){return{id:song.id||`${origin}-${song.title}-${song.artist}`.toLowerCase().replace(/\s+/g,'-'),title:song.title||'Sem título',artist:song.artist||'Artista não informado',key:song.key||'—',bpm:song.bpm||'—',capo:song.capo||'—',tags:Array.isArray(song.tags)?song.tags:String(song.tags||'').split(',').map(v=>v.trim()).filter(Boolean),notes:song.notes||'',lyrics:song.lyrics||'',source:origin==='online'?'Online':'Local',sourceType:origin,pdf:song.pdf||''}}
+async function fetchOnlineLibrary(){const r=await fetch('content/online-library/manifest.json',{cache:'no-store'});const p=await r.json();return(Array.isArray(p.musics)?p.musics:[]).map(s=>normalizeSong(s,'online'))}
+function getLocalLibrary(){return readLocalPdfs().map(item=>normalizeSong({title:item.title,artist:'PDF Local',key:'—',bpm:'—',capo:'—',tags:['pdf','local'],notes:'Arquivo local do músico',lyrics:'',pdf:item.dataUrl},'local'))}
+function esc(v){return v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function favoriteIds(){return new Set(state.favorites.map(item=>item.id))}
+function isFavorite(id){return favoriteIds().has(id)}
+function toSharp(note){return FLAT_TO_SHARP[note]||note}
+function transposeRoot(root,delta){const idx=NOTE_SHARPS.indexOf(toSharp(root));if(idx===-1)return root;return NOTE_SHARPS[(idx+delta+120)%12]}
+function transposeChordToken(token,delta){return token.replace(/([A-G](?:#|b)?)(?=[^A-Za-z]|$)/g,(m)=>transposeRoot(m,delta))}
+function transposeText(text,delta){if(!delta)return text;return text.replace(/\b([A-G](?:#|b)?(?:m|maj7|7|sus2|sus4|dim|add9|9|11|13)?(?:\/[A-G](?:#|b)?)?)\b/g,(m)=>transposeChordToken(m,delta))}
+function highlightLyrics(text){return text.split('\n').map(line=>{const safe=esc(line);if(/^[\[(#].+[\])]?$/.test(line.trim()))return `<span class="section">${safe}</span>`;return safe.replace(/\b([A-G](#|b)?(m|maj7|7|sus2|sus4|dim|add9|9|11|13)?)(\/([A-G](#|b)?))?\b/g,'<span class="chord">$1</span>')}).join('\n')}
+function updateFavoriteButton(){const song=currentSong();dom.toggleFavorite.textContent=song&&isFavorite(song.id)?'★':'☆'}
+function renderLibrary(){const q=dom.searchInput.value.trim().toLowerCase();state.filteredSongs=state.allSongs.filter(song=>{const matchesFilter=state.filter==='all'||song.sourceType===state.filter||(state.filter==='favorites'&&isFavorite(song.id));const bag=[song.title,song.artist,song.key,song.notes,song.tags.join(' ')].join(' ').toLowerCase();return matchesFilter&&bag.includes(q)});dom.libraryCount.textContent=`${state.filteredSongs.length} faixas`;dom.libraryList.innerHTML=state.filteredSongs.map(song=>`<article class="song-item ${song.id===state.selectedId?'active':''}" data-id="${song.id}"><h3>${song.title}</h3><p>${song.artist} • Tom ${song.key} • ${song.source}</p><div class="song-tags">${isFavorite(song.id)?'<span class="tag">favorita</span>':''}${(song.tags.length?song.tags:['sem tags']).slice(0,4).map(tag=>`<span class="tag">${tag}</span>`).join('')}</div></article>`).join('')||`<div class="empty-state"><div class="empty-icon">⊘</div><p>Nenhuma música encontrada.</p></div>`;dom.libraryList.querySelectorAll('.song-item').forEach(item=>item.addEventListener('click',()=>openSong(item.dataset.id)))}
+function renderSavedSetlists(){dom.savedSetlistsSelect.innerHTML='<option value="">Setlists salvos</option>'+state.savedSetlists.map(item=>`<option value="${item.id}">${item.name}</option>`).join('')}
+function renderSetlist(){dom.setlistCount.textContent=`${state.setlist.length} músicas`;const currentIndex=state.setlist.findIndex(song=>song.id===state.selectedId);const nextSong=currentIndex>=0?state.setlist[currentIndex+1]:state.setlist[0];dom.nextSongCard.textContent=nextSong?`Próxima: ${nextSong.title} — ${nextSong.artist}`:'Nenhuma próxima música';dom.setlistList.innerHTML=state.setlist.map((song,index)=>`<article class="setlist-item ${song.id===state.selectedId?'active':''}" data-id="${song.id}"><h4>${index+1}. ${song.title}</h4><p>${song.artist} • Tom ${song.key}</p><div class="setlist-inline"><button class="mini-btn up" data-index="${index}" type="button">↑</button><button class="mini-btn down" data-index="${index}" type="button">↓</button><button class="mini-btn remove" data-index="${index}" type="button">Remover</button></div></article>`).join('')||`<div class="empty-state"><div class="empty-icon">♪</div><p>Monte seu repertório ao vivo.</p></div>`;dom.setlistList.querySelectorAll('.setlist-item').forEach(item=>item.addEventListener('click',()=>openSong(item.dataset.id)));dom.setlistList.querySelectorAll('.up').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();const i=Number(btn.dataset.index);if(i>0)[state.setlist[i-1],state.setlist[i]]=[state.setlist[i],state.setlist[i-1]];renderSetlist()}));dom.setlistList.querySelectorAll('.down').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();const i=Number(btn.dataset.index);if(i<state.setlist.length-1)[state.setlist[i+1],state.setlist[i]]=[state.setlist[i],state.setlist[i+1]];renderSetlist()}));dom.setlistList.querySelectorAll('.remove').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation();state.setlist.splice(Number(btn.dataset.index),1);renderSetlist()}));renderSavedSetlists()}
+function currentSong(){return state.allSongs.find(s=>s.id===state.selectedId)||state.setlist.find(s=>s.id===state.selectedId)||null}
+function openSong(id){const song=state.allSongs.find(s=>s.id===id)||state.setlist.find(s=>s.id===id);if(!song)return;state.selectedId=id;state.transpose=0;dom.viewerTitle.textContent=song.title;dom.viewerSubtitle.textContent=`${song.artist}${song.notes?' • '+song.notes:''}`;dom.metaBpm.textContent=song.bpm||'—';dom.metaCapo.textContent=song.capo||'—';dom.metaSource.textContent=song.source||'—';renderCurrentSong();window.scrollTo({top:0,behavior:'smooth'});renderLibrary();renderSetlist();updateFavoriteButton();updateProgress()}
+function renderCurrentSong(){const song=currentSong();if(!song)return;if(song.pdf){dom.metaKey.textContent='PDF';dom.viewerContent.innerHTML=`<iframe src="${song.pdf}" style="width:100%;height:72vh;border:none;border-radius:18px;background:#fff"></iframe>`;return}const transposed=transposeText(song.lyrics||'Sem letra/cifra cadastrada.',state.transpose);dom.viewerContent.innerHTML=highlightLyrics(transposed);dom.metaKey.textContent=(song.key&&song.key!=='—')?transposeRoot(song.key,state.transpose):'—'}
+async function loadLibrary(){try{const online=await fetchOnlineLibrary();const local=getLocalLibrary();state.allSongs=[...online,...local];renderLibrary();renderSetlist();if(state.allSongs.length&&!state.selectedId)openSong(state.allSongs[0].id)}catch(e){dom.libraryList.innerHTML=`<div class="empty-state"><div class="empty-icon">!</div><p>Não foi possível carregar a biblioteca.</p></div>`}}
+function setViewerSize(size){document.documentElement.style.setProperty('--viewer-size',`${size}px`);dom.fontRange.value=size}
+function toggleScroll(){if(state.scrollTimer){clearInterval(state.scrollTimer);state.scrollTimer=null;dom.startScroll.textContent='Auto Scroll';return}state.scrollTimer=setInterval(()=>{window.scrollBy({top:state.scrollSpeed,left:0,behavior:'smooth'});updateProgress()},90);dom.startScroll.textContent='Parar Scroll'}
+function updateProgress(){const doc=document.documentElement;const max=Math.max(1,doc.scrollHeight-window.innerHeight);const pct=Math.min(100,Math.max(0,(window.scrollY/max)*100));dom.scrollProgress.style.width=`${pct}%`}
+function addCurrentToSetlist(){const song=currentSong();if(!song)return;state.setlist.push({...song});renderSetlist()}
+function goRelative(delta){if(!state.setlist.length)return;const idx=state.setlist.findIndex(song=>song.id===state.selectedId);const nextIdx=idx===-1?0:Math.min(Math.max(idx+delta,0),state.setlist.length-1);openSong(state.setlist[nextIdx].id)}
+function jumpToTrack(){const idx=Number(dom.jumpInput.value)-1;if(idx>=0&&idx<state.setlist.length)openSong(state.setlist[idx].id)}
+function saveSetlist(){const name=prompt('Nome do repertório:',`Setlist ${new Date().toLocaleDateString('pt-BR')}`);if(!name)return;state.savedSetlists.unshift({id:`setlist-${Date.now()}`,name,createdAt:new Date().toISOString(),songs:state.setlist});writeSavedSetlists(state.savedSetlists);dom.setlistTitle.textContent=`Setlist atual • ${name}`;renderSavedSetlists()}
+function loadSavedSetlist(){const id=dom.savedSetlistsSelect.value;if(!id)return;const item=state.savedSetlists.find(s=>s.id===id);if(!item)return;state.setlist=(item.songs||[]).map(song=>({...song}));dom.setlistTitle.textContent=`Setlist atual • ${item.name}`;renderSetlist();if(state.setlist.length)openSong(state.setlist[0].id)}
+function toggleFavorite(){const song=currentSong();if(!song)return;const ids=favoriteIds();if(ids.has(song.id)){state.favorites=state.favorites.filter(item=>item.id!==song.id)}else{state.favorites.unshift({id:song.id,title:song.title})}writeFavorites(state.favorites);renderLibrary();updateFavoriteButton()}
+function handlePdfUpload(event){const file=event.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=async()=>{const items=readLocalPdfs();items.unshift({title:file.name.replace(/\.pdf$/i,''),dataUrl:reader.result});writeLocalPdfs(items);await loadLibrary()};reader.readAsDataURL(file)}
+dom.searchInput.addEventListener('input',renderLibrary);document.querySelectorAll('.chip').forEach(chip=>chip.addEventListener('click',()=>{document.querySelectorAll('.chip').forEach(b=>b.classList.remove('active'));chip.classList.add('active');state.filter=chip.dataset.filter;renderLibrary()}));dom.refreshLibrary.addEventListener('click',loadLibrary);dom.pdfInput.addEventListener('change',handlePdfUpload);dom.toggleStageMode.addEventListener('click',()=>document.body.classList.toggle('stage-mode'));dom.increaseFont.addEventListener('click',()=>setViewerSize(Math.min(40,Number(dom.fontRange.value)+1)));dom.decreaseFont.addEventListener('click',()=>setViewerSize(Math.max(14,Number(dom.fontRange.value)-1)));dom.fontRange.addEventListener('input',e=>setViewerSize(e.target.value));dom.startScroll.addEventListener('click',toggleScroll);dom.scrollSpeed.addEventListener('input',e=>state.scrollSpeed=Number(e.target.value));dom.addToSetlist.addEventListener('click',addCurrentToSetlist);dom.nextSong.addEventListener('click',()=>goRelative(1));dom.prevSong.addEventListener('click',()=>goRelative(-1));dom.jumpButton.addEventListener('click',jumpToTrack);dom.jumpInput.addEventListener('keydown',e=>{if(e.key==='Enter')jumpToTrack()});dom.saveSetlist.addEventListener('click',saveSetlist);dom.loadSavedSetlist.addEventListener('click',loadSavedSetlist);dom.clearSetlist.addEventListener('click',()=>{state.setlist=[];renderSetlist()});dom.copyText.addEventListener('click',async()=>{const song=currentSong();if(!song||song.pdf)return;try{await navigator.clipboard.writeText(transposeText(song.lyrics||'',state.transpose));dom.copyText.textContent='Copiado';setTimeout(()=>dom.copyText.textContent='Copiar',1200)}catch(e){}});dom.toggleFavorite.addEventListener('click',toggleFavorite);dom.transposeUp.addEventListener('click',()=>{state.transpose+=1;renderCurrentSong()});dom.transposeDown.addEventListener('click',()=>{state.transpose-=1;renderCurrentSong()});window.addEventListener('scroll',updateProgress,{passive:true});setViewerSize(21);renderSavedSetlists();loadLibrary();updateProgress()

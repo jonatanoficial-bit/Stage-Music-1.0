@@ -1,15 +1,48 @@
 {
-  "version": "1.3",
+  "version": "1.3.0",
+  "updatedAt": "2026-03-09T15:10:00-03:00",
   "musics": [
     {
-      "title": "Demo Worship",
-      "artist": "Sample",
-      "lyrics": "G D Em C"
+      "id": "exemplo-worship",
+      "title": "Exemplo Worship",
+      "artist": "Demo",
+      "key": "G",
+      "bpm": 72,
+      "capo": "Sem capotraste",
+      "tags": [
+        "adoração",
+        "demo"
+      ],
+      "notes": "Entrada suave",
+      "lyrics": "[Intro]\nG  D/F#  Em7  C\n\n[Verso]\nG           D\nLetra exemplo\nEm7         C\nSegue a canção"
     },
     {
-      "title": "Demo Noite",
-      "artist": "Sample",
-      "lyrics": "A E F#m D"
+      "id": "exemplo-noite",
+      "title": "Exemplo Noite",
+      "artist": "Demo Band",
+      "key": "A",
+      "bpm": 98,
+      "capo": "2",
+      "tags": [
+        "noite",
+        "demo"
+      ],
+      "notes": "Levado aberto",
+      "lyrics": "[Verso]\nA   E/G#   F#m   D\nLetra de barzinho\n\n[Refrão]\nA   E   F#m   D"
+    },
+    {
+      "id": "exemplo-igreja",
+      "title": "Exemplo Igreja",
+      "artist": "Ministério Sample",
+      "key": "D",
+      "bpm": 84,
+      "capo": "Sem capotraste",
+      "tags": [
+        "igreja",
+        "culto"
+      ],
+      "notes": "Final em crescendo",
+      "lyrics": "[Verso]\nD   A/C#   Bm   G\nMesmo na noite vou cantar\n\n[Ponte]\nEm   G   D/F#   A"
     }
   ]
 }
