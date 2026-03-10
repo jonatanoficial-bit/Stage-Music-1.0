@@ -3,15 +3,9 @@
   "short_name": "Stage Music",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#08111f",
-  "theme_color": "#08111f",
+  "background_color": "#090814",
+  "theme_color": "#090814",
   "icons": [
-    {
-      "src": "assets/logo-stage-music.png",
-      "sizes": "1024x1024",
-      "type": "image/png",
-      "purpose": "any"
-    },
     {
       "src": "assets/icons/favicon.svg",
       "sizes": "128x128",

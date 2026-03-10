@@ -1,29 +1,20 @@
 # Stage Music — Live Music Performance
 
-**Build:** 2026-03-10 12:34 BRT  
-**Versão:** v1.0.0  
-**Status:** build final consolidada
+**Build:** 2026-03-10 13:45  
+**Versão:** v1.1.0  
+**Status:** refinamento visual premium internacional
 
-## Entregue nesta fase final
+## O que esta build entrega
 
-- logo oficial aplicado
-- fundo forte aplicado
-- base limpa consolidada
+- novo visual premium com identidade forte
+- logo PNG aplicado no header
+- fundo de palco aplicado com overlay nas cores da marca
+- botões redesenhados
+- contraste e hierarquia visual melhores
+- base funcional mantida
 - PWA instalável
-- service worker
-- modo palco profissional
-- botão grande PRÓXIMA MÚSICA
-- barra de progresso tipo teleprompter
-- auto scroll
-- zoom
-- setlists múltiplos com carregar e excluir
+- atalhos de palco
 - favoritos
-- transposição básica real de acordes em texto
+- setlists múltiplos
+- transposição básica
 - PDFs locais persistentes
-- espelhar tela para apoio de palco
-- atalhos de teclado
-- admin para banco online público
-
-## Publicação
-
-Suba o conteúdo da raiz no GitHub Pages e substitua todo o conteúdo antigo.

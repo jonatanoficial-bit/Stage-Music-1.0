@@ -1,6 +1,6 @@
 {
-  "version": "1.3.0",
-  "updatedAt": "2026-03-09T15:10:00-03:00",
+  "version": "1.5.0",
+  "updatedAt": "2026-03-10T13:45:00-03:00",
   "musics": [
     {
       "id": "exemplo-worship",
@@ -43,6 +43,20 @@
       ],
       "notes": "Final em crescendo",
       "lyrics": "[Verso]\nD   A/C#   Bm   G\nMesmo na noite vou cantar\n\n[Ponte]\nEm   G   D/F#   A"
+    },
+    {
+      "id": "exemplo-rock",
+      "title": "Exemplo Rock",
+      "artist": "Sample Trio",
+      "key": "E",
+      "bpm": 126,
+      "capo": "Sem capotraste",
+      "tags": [
+        "rock",
+        "noite"
+      ],
+      "notes": "Drive forte no refrão",
+      "lyrics": "[Verso]\nE   B   C#m   A\nSigo na estrada sem parar\n\n[Refrão]\nE   B   A   E"
     }
   ]
 }

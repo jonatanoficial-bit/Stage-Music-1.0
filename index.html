@@ -1,155 +1,76 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stage Music - Live Music Performance</title>
-  <meta name="theme-color" content="#08111f">
-  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <div class="app-shell">
-    <div class="glow glow-a"></div>
-    <div class="glow glow-b"></div>
-
-    <header class="topbar glass final-build">
-      <div class="brand">
-        <div class="brand-icon">♪</div>
-        <div>
-          <h1>Stage Music</h1>
-          <p>Live Music Performance</p>
-        </div>
-      </div>
-
-      <div class="top-actions">
-        <button class="btn subtle" id="toggleStageMode" type="button">Modo Palco</button>
-        <button class="btn subtle" id="installApp" type="button" style="display:none">Instalar</button>
-        <a class="btn subtle" href="admin/admin.html">Admin</a>
-      </div>
-    </header>
-
-    <div class="hero-note glass"><strong>Final build</strong><span>Logo e fundo oficiais aplicados • PWA • modo palco • setlists • favoritos • transposição</span></div>
-
-    <main class="layout">
-      <aside class="panel glass library-panel">
-        <div class="section-head">
-          <div>
-            <span class="eyebrow">Biblioteca</span>
-            <h2>Músicas, cifras e PDFs</h2>
-          </div>
-          <div class="pill" id="libraryCount">0 faixas</div>
-        </div>
-
-        <div class="search-row">
-          <input id="searchInput" type="search" placeholder="Buscar por nome, artista, tom, tags...">
-          <button class="btn subtle" id="refreshLibrary" type="button">Atualizar</button>
-        </div>
-
-        <div class="search-row">
-          <label class="file-btn">
-            <input id="pdfInput" type="file" accept="application/pdf" hidden>
-            <span>Adicionar PDF local</span>
-          </label>
-        </div>
-
-        <div class="chips">
-          <button class="chip active" data-filter="all" type="button">Todas</button>
-          <button class="chip" data-filter="online" type="button">Online</button>
-          <button class="chip" data-filter="local" type="button">Locais</button>
-          <button class="chip" data-filter="favorites" type="button">Favoritas</button>
-        </div>
-
-        <div class="library-list" id="libraryList"></div>
-      </aside>
-
-      <section class="panel glass viewer-panel">
-        <div class="section-head viewer-head">
-          <div>
-            <span class="eyebrow">Visualização</span>
-            <h2 id="viewerTitle">Selecione uma música</h2>
-            <p id="viewerSubtitle">Abra uma música da biblioteca ou do repertório.</p>
-          </div>
-          <div class="viewer-actions">
-            <button class="icon-btn" id="decreaseFont" type="button">A−</button>
-            <button class="icon-btn" id="increaseFont" type="button">A+</button>
-            <button class="icon-btn" id="copyText" type="button">Copiar</button>
-            <button class="icon-btn" id="toggleFavorite" type="button">☆</button>
-          </div>
-        </div>
-
-        <div class="meta-grid">
-          <article class="meta-card"><span>Tom</span><strong id="metaKey">—</strong></article>
-          <article class="meta-card"><span>BPM</span><strong id="metaBpm">—</strong></article>
-          <article class="meta-card"><span>Capotraste</span><strong id="metaCapo">—</strong></article>
-          <article class="meta-card"><span>Origem</span><strong id="metaSource">—</strong></article>
-        </div>
-
-        <section class="setlist-box">
-          <div class="section-head">
-            <div>
-              <span class="eyebrow">Repertório</span>
-              <h3 id="setlistTitle">Setlist atual</h3>
-            </div>
-            <div class="setlist-actions">
-              <button class="btn subtle small" id="addToSetlist" type="button">Adicionar atual</button>
-              <button class="btn subtle small" id="saveSetlist" type="button">Salvar</button>
-              <button class="btn subtle small" id="clearSetlist" type="button">Limpar</button>
-            </div>
-          </div>
-
-          <div class="setlist-tools">
-            <div class="jump-wrap">
-              <input id="jumpInput" type="number" min="1" placeholder="Ir para faixa">
-            </div>
-            <button class="btn subtle small" id="jumpButton" type="button">Abrir</button>
-            <div class="pill" id="setlistCount">0 músicas</div>
-          </div>
-
-          <div class="saved-box">
-            <select id="savedSetlistsSelect">
-              <option value="">Setlists salvos</option>
-            </select>
-            <button class="btn subtle small" id="loadSavedSetlist" type="button">Carregar</button>
-            <button class="btn subtle small" id="deleteSavedSetlist" type="button">Excluir</button>
-          </div>
-
-          <div class="next-song-card" id="nextSongCard">Nenhuma próxima música</div>
-          <div class="setlist-list" id="setlistList"></div>
-        </section>
-
-        <section class="stage-box">
-          <div class="stage-toolbar">
-            <button class="btn subtle small" id="prevSong" type="button">Anterior</button>
-            <button class="btn primary big" id="nextSong" type="button">PRÓXIMA MÚSICA</button>
-            <button class="btn subtle small" id="startScroll" type="button">Auto Scroll</button>
-            <button class="btn subtle small" id="transposeDown" type="button">- Tom</button>
-            <button class="btn subtle small" id="transposeUp" type="button">+ Tom</button>
-            <button class="btn subtle small" id="toggleMirror" type="button">Espelhar</button>
-            <label class="range-control"><span>Velocidade</span><input id="scrollSpeed" type="range" min="1" max="10" value="3"></label>
-            <label class="range-control"><span>Zoom</span><input id="fontRange" type="range" min="16" max="34" value="21"></label>
-          </div>
-
-          <div class="teleprompter-bar">
-            <span>Progresso</span>
-            <div class="progress-track"><div class="progress-fill" id="scrollProgress"></div></div>
-          </div>
-
-          <div class="pedal-hint">Atalhos: esquerda/anterior, direita/próxima, espaço scroll</div>
-          <article class="viewer-card">
-            <div class="viewer-content" id="viewerContent">
-              <div class="empty-state">
-                <div class="empty-icon">♫</div>
-                <p>Biblioteca pronta. Abra uma música para tocar em modo palco.</p>
-              </div>
-            </div>
-          </article>
-        </section>
-      </section>
-    </main>
+<html lang="pt-BR"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stage Music - Live Music Performance</title>
+<link rel="manifest" href="site.webmanifest">
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css">
+</head><body>
+<div class="bg"></div><div class="overlay"></div>
+<div class="app">
+<header class="hero glass">
+  <div class="brand-box">
+    <img class="logo" src="assets/branding/logo-stage-music.png" alt="Stage Music logo">
+    <div><div class="eyebrow">Premium live toolkit</div><h1>Stage Music</h1><p>Live Music Performance</p></div>
   </div>
+  <div class="actions">
+    <button class="btn ghost" id="toggleStage">Modo Palco</button>
+    <button class="btn ghost" id="installBtn" style="display:none">Instalar</button>
+    <a class="btn primary" href="admin/admin.html">Admin</a>
+  </div>
+</header>
 
-  <script src="js/store.js"></script>
-  <script src="js/app.js"></script>
-</body>
-</html>
+<main class="grid">
+  <aside class="card glass">
+    <div class="section-top"><div><div class="eyebrow">Biblioteca</div><h2>Músicas, cifras e PDFs</h2></div><div class="pill" id="songCount">0 faixas</div></div>
+    <div class="stack">
+      <div class="row"><input id="search" placeholder="Buscar por nome, artista, tom, tags..."><button class="btn soft" id="refreshBtn">Atualizar</button></div>
+      <label class="btn soft upload"><input id="pdfInput" type="file" accept="application/pdf" hidden>Adicionar PDF local</label>
+      <div class="tabs">
+        <button class="tab active" data-filter="all">Todas</button>
+        <button class="tab" data-filter="online">Online</button>
+        <button class="tab" data-filter="local">Locais</button>
+        <button class="tab" data-filter="favorites">Favoritas</button>
+      </div>
+    </div>
+    <div id="library" class="list"></div>
+  </aside>
+
+  <section class="card glass">
+    <div class="section-top"><div><div class="eyebrow">Visualização</div><h2 id="songTitle">Selecione uma música</h2><p id="songSubtitle">Abra uma música da biblioteca ou do repertório.</p></div><div class="actions"><button class="icon" id="fontMinus">A−</button><button class="icon" id="fontPlus">A+</button><button class="icon" id="copyBtn">Copiar</button><button class="icon" id="favBtn">☆</button></div></div>
+    <div class="meta">
+      <div class="meta-item"><span>Tom</span><strong id="metaKey">—</strong></div>
+      <div class="meta-item"><span>BPM</span><strong id="metaBpm">—</strong></div>
+      <div class="meta-item"><span>Capotraste</span><strong id="metaCapo">—</strong></div>
+      <div class="meta-item"><span>Origem</span><strong id="metaSource">—</strong></div>
+    </div>
+
+    <section class="subcard">
+      <div class="section-top"><div><div class="eyebrow">Repertório</div><h3 id="setlistTitle">Setlist atual</h3></div><div class="actions"><button class="btn soft small" id="addSetlist">Adicionar atual</button><button class="btn soft small" id="saveSetlist">Salvar</button><button class="btn soft small" id="clearSetlist">Limpar</button></div></div>
+      <div class="row"><input id="jumpInput" type="number" min="1" placeholder="Ir para faixa"><button class="btn soft small" id="jumpBtn">Abrir</button><div class="pill" id="setlistCount">0 músicas</div></div>
+      <div class="row" style="margin-top:12px"><select id="savedSelect"><option value="">Setlists salvos</option></select><button class="btn soft small" id="loadSetlist">Carregar</button><button class="btn soft small" id="deleteSetlist">Excluir</button></div>
+      <div class="next" id="nextSong">Nenhuma próxima música</div>
+      <div id="setlist" class="list smalllist"></div>
+    </section>
+
+    <section class="subcard">
+      <div class="actions toolbar">
+        <button class="btn soft small" id="prevBtn">Anterior</button>
+        <button class="btn next-btn" id="nextBtn">PRÓXIMA MÚSICA</button>
+        <button class="btn soft small" id="scrollBtn">Auto Scroll</button>
+        <button class="btn soft small" id="downTone">- Tom</button>
+        <button class="btn soft small" id="upTone">+ Tom</button>
+        <button class="btn soft small" id="mirrorBtn">Espelhar</button>
+        <label class="range">Velocidade <input id="speed" type="range" min="1" max="10" value="3"></label>
+        <label class="range">Zoom <input id="zoom" type="range" min="16" max="40" value="22"></label>
+      </div>
+      <div class="tele"><span>Progresso</span><div class="track"><div class="fill" id="progress"></div></div></div>
+      <div class="hint">Atalhos: ← anterior · → próxima · espaço scroll</div>
+      <div class="viewer" id="viewer"><div class="empty">♫<br>Abra uma música para tocar em modo palco.</div></div>
+    </section>
+  </section>
+</main>
+</div>
+<script src="js/store.js"></script>
+<script src="js/app.js"></script>
+</body></html>
