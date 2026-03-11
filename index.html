@@ -13,6 +13,16 @@
   <div class="app-bg"></div>
   <div class="app-overlay"></div>
 
+  
+  <div class="intro-overlay" id="introOverlay" aria-label="Abertura do app">
+    <div class="intro-card">
+      <video id="introVideo" class="intro-video" autoplay muted playsinline preload="auto">
+        <source src="assets/intro/intro.mp4" type="video/mp4">
+      </video>
+      <button class="intro-skip" id="skipIntro" type="button">Pular</button>
+    </div>
+  </div>
+
   <div class="app-shell">
     <header class="hero glass">
       <div class="hero-left">
@@ -156,6 +166,29 @@
       </section>
     </main>
   </div>
+
+
+  <script>
+    (function () {
+      const introOverlay = document.getElementById('introOverlay');
+      const introVideo = document.getElementById('introVideo');
+      const skipIntro = document.getElementById('skipIntro');
+      function closeIntro() {
+        if (!introOverlay) return;
+        introOverlay.classList.add('is-hidden');
+        document.body.classList.add('intro-finished');
+        setTimeout(() => {
+          if (introOverlay && introOverlay.parentNode) introOverlay.parentNode.removeChild(introOverlay);
+        }, 450);
+      }
+      if (introVideo) {
+        const p = introVideo.play();
+        if (p && typeof p.catch === 'function') p.catch(() => {});
+        introVideo.addEventListener('ended', closeIntro);
+      }
+      if (skipIntro) skipIntro.addEventListener('click', closeIntro);
+    })();
+  </script>
 
   <script src="js/store.js"></script>
   <script src="js/app.js"></script>
