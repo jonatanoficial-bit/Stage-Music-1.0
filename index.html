@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<link rel="manifest" href="manifest.json">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stage Music - Live Music Performance</title>
@@ -46,7 +47,8 @@
         <button class="btn btn-ghost" id="toggleStageMode" type="button">Modo Palco</button>
         <a class="btn btn-primary" href="admin/admin.html">Admin</a>
       </div>
-    </header>
+    <button class="btn btn-primary" id="installAppBtn">Instalar App</button>
+</header>
 
     <main class="main-grid">
       <aside class="panel panel-library glass">
@@ -192,5 +194,26 @@
 
   <script src="js/store.js"></script>
   <script src="js/app.js"></script>
+
+<script>
+let deferredPrompt;
+const installBtn = document.getElementById('installAppBtn');
+
+installBtn.style.display = 'none';
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.style.display = 'block';
+});
+
+installBtn.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+});
+</script>
+
 </body>
 </html>
