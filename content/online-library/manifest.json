@@ -1,21 +1,94 @@
 {
-  "version": "1.0.0",
-  "updatedAt": "2026-03-24T18:08:48.180Z",
+  "version": "1.7.1",
+  "updatedAt": "2026-03-10T18:45:00-03:00",
   "musics": [
     {
-      "id": "e1244b3f-2039-46dd-96c6-e887ac91bbee",
-      "title": "The Long And Winding Road",
-      "artist": "The Beatles",
-      "key": "Eb",
-      "bpm": "",
-      "capo": "",
+      "id": "exemplo-worship",
+      "title": "Exemplo Worship",
+      "artist": "Demo",
+      "key": "G",
+      "bpm": 72,
+      "capo": "Sem capotraste",
       "tags": [
-        "Rock",
-        "Rock classico",
+        "adoração",
+        "demo",
+        "gospel",
+        "culto"
+      ],
+      "genre": "gospel",
+      "classification": "culto",
+      "notes": "Entrada suave",
+      "lyrics": "[Intro]\\nG  D/F#  Em7  C\\n\\n[Verso]\\nG           D\\nLetra exemplo\\nEm7         C\\nSegue a canção"
+    },
+    {
+      "id": "exemplo-noite",
+      "title": "Exemplo Noite",
+      "artist": "Demo Band",
+      "key": "A",
+      "bpm": 98,
+      "capo": "2",
+      "tags": [
+        "noite",
+        "demo",
+        "pop",
         "banda"
       ],
-      "notes": "",
-      "lyrics": "[Primeira Parte] \n\n     Cm                   G#/A#\nThe long and winding road\n      D#    D#/C#    G#\nThat leads to your door\n      Gm7  Cm       Cm/A#\nWill never disappear\nFm7                 A#7      D#7 (Frase 1)\n    I've seen that road before\nG#   Gm7    Cm           Cm/A# \n  It always leads me here\nFm7         A#7     D#\n   Lead me to your door\n\n[Segunda Parte] \n\n     Cm                  G#/A#\nThe wild and windy night\n          D#    D#/C#  G#\nThat the rain washed away\n     Gm7   Cm           Cm/A#\nHas left a pool of tears\nFm7        A#7     D#7 (Frase 1)\n   Crying for the day\nG#     Gm7      Cm           Cm/A# \n  Why leave me standing here?\nFm7         A#7     D#\n   Let me know the way\n\n[Terceira Parte] \n\n D#/G            G#\nMany times I've been alone\n     Gm7             Fm7  A#7\nAnd many times I've cried\nPágina 1 / 3\nD#             G#\nAnyway you've never known\n     Gm7             Fm7  A#7\nThe many ways I've tried\n\n[Quarta Parte] \n\n      Cm                    G#/A#\nBut still they lead me back\n        D#   D#/C#    G#\nTo the long winding road\n     Gm7     Cm          Cm/A#\nYou left me standing here\nFm7        A#7        D#7 (Frase)\n   A long long time ago\nG#       Gm7     Cm          Cm/A#\n  Don't leave me waiting here\nFm7         A#7     D#\n   Lead me to your door\n\n[Instrumental]\n\nD# G# Gm7  Fm7  A#7  \nD#  (Frase 2)\n\n[Quarta Parte] \n\n      Cm                    G#/A#\nBut still they lead me back\n        D#   D#/C#    G#\nTo the long winding road\n     Gm7     Cm          Cm/A#\nYou left me standing here\nFm7        A#7        D#7 (Frase)\n   A long long time ago\nG#       Gm7     Cm          Cm/A#\n  Don't leave me waiting here\nFm7         A#7     D#\n   Lead me to your door\nG#/A#               D#\n    Yeah yeah yeah yeah"
+      "genre": "pop",
+      "classification": "noite",
+      "notes": "Levado aberto",
+      "lyrics": "[Verso]\\nA   E/G#   F#m   D\\nLetra de barzinho\\n\\n[Refrão]\\nA   E   F#m   D"
+    },
+    {
+      "id": "exemplo-igreja",
+      "title": "Exemplo Igreja",
+      "artist": "Ministério Sample",
+      "key": "D",
+      "bpm": 84,
+      "capo": "Sem capotraste",
+      "tags": [
+        "igreja",
+        "culto",
+        "worship",
+        "adoração"
+      ],
+      "genre": "worship",
+      "classification": "adoração",
+      "notes": "Final em crescendo",
+      "lyrics": "[Verso]\\nD   A/C#   Bm   G\\nMesmo na noite vou cantar\\n\\n[Ponte]\\nEm   G   D/F#   A"
+    },
+    {
+      "id": "exemplo-rock",
+      "title": "Exemplo Rock",
+      "artist": "Sample Trio",
+      "key": "E",
+      "bpm": 126,
+      "capo": "Sem capotraste",
+      "tags": [
+        "rock",
+        "noite",
+        "banda"
+      ],
+      "genre": "rock",
+      "classification": "noite",
+      "notes": "Drive forte no refrão",
+      "lyrics": "[Verso]\\nE   B   C#m   A\\nSigo na estrada sem parar\\n\\n[Refrão]\\nE   B   A   E"
+    },
+    {
+      "id": "exemplo-acustico",
+      "title": "Exemplo Acústico",
+      "artist": "Voz & Violão",
+      "key": "C",
+      "bpm": 76,
+      "capo": "3",
+      "tags": [
+        "acústico",
+        "solo",
+        "mpb"
+      ],
+      "genre": "mpb",
+      "classification": "acústico",
+      "notes": "Base suave",
+      "lyrics": "[Verso]\\nC   G/B   Am   F\\nCanção leve pra tocar\\n\\n[Refrão]\\nC   G   F   Fm"
     }
   ]
 }

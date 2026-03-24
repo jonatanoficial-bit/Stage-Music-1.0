@@ -60,3 +60,16 @@ select option{color:#000}
 @media (min-width:960px){.commercial-grid{grid-template-columns:390px 1fr}.filter-grid{grid-template-columns:1fr 1fr}.meta-grid{grid-template-columns:repeat(4,1fr)}}
 @media (orientation:landscape) and (max-width:900px){.stage-mode .hero,.stage-mode .panel-library{display:none}.stage-mode .main-grid{grid-template-columns:1fr}.stage-mode .panel-viewer{padding:10px}.stage-mode .viewer-head,.stage-mode .meta-grid,.stage-mode .setlist-box{display:none}.stage-mode .stage-box{padding:10px;margin:0;border-radius:20px}.stage-mode .viewer-card{min-height:86vh}.stage-mode .viewer-content{font-size:calc(var(--size) + 8px);line-height:1.75;padding:14px 18px}.stage-mode .stage-toolbar{position:sticky;top:0;z-index:3;background:rgba(9,8,20,.72);padding-bottom:8px}}
 @media (max-width:640px){.app-shell{padding:12px}.hero,.panel,.setlist-box,.stage-box,.viewer-card{border-radius:24px}.hero,.panel-top,.viewer-head,.box-head{flex-direction:column}.hero-left{align-items:flex-start}.logo-wrap{width:88px;height:88px}.brand-logo{max-width:72px;max-height:72px}.build-badge{width:100%}.library-list,.setlist-cards{max-height:none}.status-card{min-width:100%}}
+
+.hero-actions,.viewer-actions,.button-row,.setlist-tools,.stage-toolbar,.filter-grid,.stage-status{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.main-grid{max-width:1460px;margin:0 auto;display:grid;grid-template-columns:1fr;gap:16px}.panel{border-radius:30px;padding:18px}
+.status-card{flex:1;min-width:220px;padding:15px;border-radius:20px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
+.status-card span{display:block;color:var(--muted);font-size:.84rem;margin-bottom:6px}
+.setlist-cards{display:grid;gap:12px;max-height:calc(100vh - 420px);overflow:auto}
+.saved-playlists{display:flex;gap:8px;flex-wrap:wrap}
+.saved-playlist-card,.setlist-card{border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:16px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.028));cursor:pointer}
+.saved-playlist-card h4,.setlist-card h4{margin:0 0 5px;font-size:1.03rem}
+.saved-playlist-card p,.setlist-card p,.setlist-summary{margin:0;color:var(--muted)}
+.setlist-progress{display:flex;gap:10px;align-items:center;margin:10px 0 14px}
+.dragging{opacity:.45;transform:scale(.99)}
+@media (min-width:960px){.commercial-grid{grid-template-columns:390px 1fr}.filter-grid{grid-template-columns:1fr 1fr}}

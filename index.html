@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<link rel="manifest" href="manifest.json">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stage Music - Live Music Performance</title>
   <meta name="theme-color" content="#090814">
   <meta name="description" content="Aplicativo premium para músicos organizarem cifras, letras, PDFs e repertórios.">
+  <link rel="manifest" href="manifest.json">
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -14,7 +14,6 @@
   <div class="app-bg"></div>
   <div class="app-overlay"></div>
 
-  
   <div class="intro-overlay" id="introOverlay" aria-label="Abertura do app">
     <div class="intro-card">
       <video id="introVideo" class="intro-video" autoplay muted playsinline preload="auto">
@@ -41,16 +40,16 @@
 
       <div class="hero-actions">
         <div class="build-badge">
-          <strong>v1.2.1</strong>
-          <span>Build 2026-03-10 15:32</span>
+          <strong>v1.4.2</strong>
+          <span>Build 2026-03-10 18:45</span>
         </div>
         <button class="btn btn-ghost" id="toggleStageMode" type="button">Modo Palco</button>
+        <button class="btn btn-soft" id="installAppBtn" type="button" style="display:none">Instalar App</button>
         <a class="btn btn-primary" href="admin/admin.html">Admin</a>
       </div>
-    <button class="btn btn-primary" id="installAppBtn">Instalar App</button>
-</header>
+    </header>
 
-    <main class="main-grid">
+    <main class="main-grid commercial-grid">
       <aside class="panel panel-library glass">
         <div class="panel-top">
           <div>
@@ -64,6 +63,15 @@
           <div class="search-group">
             <input id="searchInput" type="search" placeholder="Buscar por nome, artista, tom, tags...">
             <button class="btn btn-soft" id="refreshLibrary" type="button">Atualizar</button>
+          </div>
+
+          <div class="filter-grid">
+            <select id="genreFilter">
+              <option value="all">Todos os gêneros</option>
+            </select>
+            <select id="classificationFilter">
+              <option value="all">Todas as classificações</option>
+            </select>
           </div>
 
           <label class="btn btn-upload">
@@ -83,6 +91,11 @@
       </aside>
 
       <section class="panel panel-viewer glass">
+        <div class="stage-status">
+          <div class="status-card"><span>▶ Tocando agora</span><strong id="nowPlayingTitle">Nenhuma música</strong></div>
+          <div class="status-card"><span>⏭ Próxima</span><strong id="nextPlayingTitle">Nenhuma música</strong></div>
+        </div>
+
         <div class="viewer-head">
           <div>
             <span class="eyebrow">Visualização</span>
@@ -107,8 +120,9 @@
         <section class="setlist-box">
           <div class="box-head">
             <div>
-              <span class="eyebrow">Repertório</span>
+              <span class="eyebrow">Setlist inteligente</span>
               <h3 id="setlistTitle">Setlist atual</h3>
+              <p class="setlist-summary" id="setlistSummary">0 músicas • ~0 min</p>
             </div>
             <div class="button-row">
               <button class="btn btn-soft small" id="addToSetlist" type="button">Adicionar atual</button>
@@ -117,24 +131,24 @@
             </div>
           </div>
 
+          <div class="setlist-progress">
+            <div class="progress-track"><div class="progress-fill" id="setlistProgressFill"></div></div>
+            <div class="progress-label" id="setlistProgressLabel">0/0</div>
+          </div>
+
           <div class="setlist-tools">
-            <div class="jump-wrap">
-              <input id="jumpInput" type="number" min="1" placeholder="Ir para faixa">
-            </div>
+            <div class="jump-wrap"><input id="jumpInput" type="number" min="1" placeholder="Ir para faixa"></div>
             <button class="btn btn-soft small" id="jumpButton" type="button">Abrir</button>
             <div class="counter-pill" id="setlistCount">0 músicas</div>
           </div>
 
-          <div class="saved-row">
-            <select id="savedSetlistsSelect">
-              <option value="">Setlists salvos</option>
-            </select>
-            <button class="btn btn-soft small" id="loadSavedSetlist" type="button">Carregar</button>
-            <button class="btn btn-soft small" id="deleteSavedSetlist" type="button">Excluir</button>
+          <div class="saved-playlists-wrap">
+            <span class="eyebrow">Repertórios salvos</span>
+            <div class="saved-playlists" id="savedPlaylists"></div>
           </div>
 
           <div class="next-song-card" id="nextSongCard">Nenhuma próxima música</div>
-          <div class="setlist-list" id="setlistList"></div>
+          <div class="setlist-cards" id="setlistList"></div>
         </section>
 
         <section class="stage-box">
@@ -146,7 +160,7 @@
             <button class="btn btn-soft small" id="transposeUp" type="button">+ Tom</button>
             <button class="btn btn-soft small" id="toggleMirror" type="button">Espelhar</button>
             <label class="range-control"><span>Velocidade</span><input id="scrollSpeed" type="range" min="1" max="10" value="3"></label>
-            <label class="range-control"><span>Zoom</span><input id="fontRange" type="range" min="16" max="40" value="21"></label>
+            <label class="range-control"><span>Zoom</span><input id="fontRange" type="range" min="16" max="44" value="22"></label>
           </div>
 
           <div class="teleprompter-bar">
@@ -154,9 +168,9 @@
             <div class="progress-track"><div class="progress-fill" id="scrollProgress"></div></div>
           </div>
 
-          <div class="pedal-hint">Atalhos: ← música anterior · → próxima música · espaço inicia/para scroll</div>
+          <div class="pedal-hint">Atalhos: ← anterior · → próxima · espaço scroll · swipe lateral no celular</div>
 
-          <article class="viewer-card">
+          <article class="viewer-card" id="viewerCard">
             <div class="viewer-content" id="viewerContent">
               <div class="empty-state">
                 <div class="empty-icon">♫</div>
@@ -169,51 +183,44 @@
     </main>
   </div>
 
-
   <script>
     (function () {
-      const introOverlay = document.getElementById('introOverlay');
-      const introVideo = document.getElementById('introVideo');
-      const skipIntro = document.getElementById('skipIntro');
+      const overlay = document.getElementById('introOverlay');
+      const video = document.getElementById('introVideo');
+      const skip = document.getElementById('skipIntro');
       function closeIntro() {
-        if (!introOverlay) return;
-        introOverlay.classList.add('is-hidden');
-        document.body.classList.add('intro-finished');
+        if (!overlay) return;
+        overlay.classList.add('is-hidden');
         setTimeout(() => {
-          if (introOverlay && introOverlay.parentNode) introOverlay.parentNode.removeChild(introOverlay);
-        }, 450);
+          if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+        }, 400);
       }
-      if (introVideo) {
-        const p = introVideo.play();
+      if (video) {
+        const p = video.play();
         if (p && typeof p.catch === 'function') p.catch(() => {});
-        introVideo.addEventListener('ended', closeIntro);
+        video.addEventListener('ended', closeIntro);
       }
-      if (skipIntro) skipIntro.addEventListener('click', closeIntro);
+      if (skip) skip.addEventListener('click', closeIntro);
+
+      let deferredPrompt = null;
+      const installBtn = document.getElementById('installAppBtn');
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (installBtn) installBtn.style.display = 'inline-flex';
+      });
+      if (installBtn) {
+        installBtn.addEventListener('click', async () => {
+          if (!deferredPrompt) return;
+          deferredPrompt.prompt();
+          await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          installBtn.style.display = 'none';
+        });
+      }
     })();
   </script>
-
   <script src="js/store.js"></script>
   <script src="js/app.js"></script>
-
-<script>
-let deferredPrompt;
-const installBtn = document.getElementById('installAppBtn');
-
-installBtn.style.display = 'none';
-
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  installBtn.style.display = 'block';
-});
-
-installBtn.addEventListener('click', async () => {
-  if (!deferredPrompt) return;
-  deferredPrompt.prompt();
-  await deferredPrompt.userChoice;
-  deferredPrompt = null;
-});
-</script>
-
 </body>
 </html>
